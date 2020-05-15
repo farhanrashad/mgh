@@ -1,0 +1,30 @@
+<odoo>
+
+    <!--     Construction Main Menu     -->
+    <menuitem name="Construction" id="con_root_menu" sequence="3"
+              web_icon="de_construction_app,static/description/icon.png"/>
+
+    <!--      Construction  -->
+    <menuitem name="Construction" id="con_project_main_menu" parent="con_root_menu" sequence="0"/>
+    <menuitem name="Project" id="con_project_menu" parent="con_project_main_menu" action="con_project_action"/>
+    <menuitem name="Notes" id="con_notes_menu" parent="con_project_main_menu" action="con_notes_action"/>
+
+    <!--     Materials/BOQ   -->
+    <menuitem name="Materials/BOQ" id="con_boq_main_menu" parent="con_root_menu" sequence="1"/>
+    <menuitem name="Materials" id="con_materils_menu" parent="con_boq_main_menu" action="con_materils_action" sequence="0"/>
+    <menuitem name="Material Requisitions/BOQ" id="con_boq_menu" parent="con_boq_main_menu" action="con_boq_action" />
+
+    <!--      Job Order     -->
+    <menuitem name="Job Order" id="con_job_order_main" parent="con_root_menu" sequence="2"/>
+    <menuitem name="Job Order" id="con_job_order_sub_menu" parent="con_job_order_main" action="con_job_order_sub_menu_action"/>
+    <menuitem name="Notes" id="con_notes_sub_menu" parent="con_job_order_main" action="con_job_order_notes_sub_menu_action"/>
+
+         Vendors
+    <menuitem name="Vendors" id="con_vendor_main" parent="con_root_menu" sequence="3"/>
+    <menuitem name="Contractors" id="con_contractors_sub_menu" parent="con_vendor_main" action="con_contractors_sub_menu_action"/>
+
+    <!--     Configuration   -->
+    <menuitem name="Configuration" id="con_configuration_main" parent="con_root_menu" sequence="23"/>
+    <menuitem name="Stages" id="con_stage_sub_menu" parent="con_configuration_main" action="con_stages_sub_menu_action"/>
+
+</odoo>
