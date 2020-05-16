@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--        Action for Estimate Smart Button    -->
+        <record model="ir.actions.act_window" id="con_internal_picking">
+            <field name="name">Internal Picking</field>
+            <field name="res_model">meterial.boq</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record id="con_boq_action" model="ir.actions.act_window">
+            <field name="name">Purchase Requisitions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">meterial.boq</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!--        Purchase Requisitions From View     -->
+        <record id="con_purchase_requistions_form" model="ir.ui.view">
+            <field name="name">create.purchase.requistions.form</field>
+            <field name="model">meterial.boq</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button name="action_confirm" id="action_confirm" states="draft" string="Confirm"
+                                class="btn-primary" type="object"/>
+                        <button name="action_cancel" states="draft,sent" type="object" string="Cancel"/>
+                        <button name="action_department_approval" states="waiting" string="Department Approve"
+                                class="btn-primary" type="object"/>
+                        <button name="action_reject" states="waiting,ir,approved" type="object" string="Reject"/>
+                        <button name="con_approve" states="ir" string="Approve" class="btn-primary" type="object"/>
+                        <button name="con_create_picking" states="approved" string="Create Picking and PO" class="btn-primary" type="object"/>
+                        <button name="con_po_recived" states="created" string="Recived" class="btn-primary" type="object"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="New,waiting,ir,approved,created,recived"/>
+                    </header>
+                    <sheet>
+                        <div name="button_box" class="oe_button_box">
+                            <button class="oe_stat_button" type="action"
+                                    name="%(con_internal_picking)d"
+                                    icon="fa-star">
+                                <field string="Internal Picking" name="con_picking_count" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object"
+                                    name="con_purchase_order"
+                                    icon="fa-calendar">
+                                <field string="Purchase Order" name="con_order_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <group>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name" readonly="1"/>
+                                </h1>
+                            </div>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="department_id"/>
+                                <field name="company_id"/>
+                                <field name="responsible_id"/>
+                                <field name="job_order"/>
+                            </group>
+                            <group>
+                                <field name="requistion_date"/>
+                                <field name="recive_date"/>
+                                <field name="req_deadline"/>
+                                <field name="analytic_account_id"/>
+                                <field name="project_id"/>
+                                <field name="task_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Requistions Lines">
+                                <field name="con_requistion_line">
+                                    <tree editable="bottom">
+                                        <!--                                        <field name="product_id"/>-->
+                                        <field name="name"/>
+                                        <field name="product_uom_qty"/>
+                                        <field name="product_uom"/>
+                                        <field name="vendor_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Picking Details">
+                                        <group>
+                                            <group>
+<!--                                                <field name="location_id"/>-->
+                                            </group>
+                                            <group>
+<!--                                                <field name="location_dest_id"/>-->
+<!--                                                <field name="picking_type_id"/>-->
+                                            </group>
+                                        </group>
+                            </page>
+                            <page string="Other Information">
+
+                                        <group>
+                                            <group>
+<!--                                                <field name="location_id"/>-->
+                                            </group>
+                                            <group>
+<!--                                                <field name="location_dest_id"/>-->
+<!--                                                <field name="picking_type_id"/>-->
+                                            </group>
+                                        </group>
+                            </page>
+                            <page string="Material/ BOQ Cost">
+
+                                        <group>
+                                            <group>
+<!--                                                <field name="location_id"/>-->
+                                            </group>
+                                            <group>
+<!--                                                <field name="location_dest_id"/>-->
+<!--                                                <field name="picking_type_id"/>-->
+                                            </group>
+                                        </group>
+
+                            </page>
+                        </notebook>
+
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--        Purchase Requisitions Tree View     -->
+        <record id="con_purchase_requistions_tree" model="ir.ui.view">
+            <field name="name">create.purchase.requistions.tree</field>
+            <field name="model">meterial.boq</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="department_id"/>
+                    <field name="requistion_date"/>
+                    <field name="req_deadline"/>
+                    <field name="company_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="con_materils_action" model="ir.actions.act_window">
+            <field name="name">BOQ</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">materials.boq</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add a New project
+                </p>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>
