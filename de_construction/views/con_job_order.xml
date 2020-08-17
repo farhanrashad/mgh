@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!--                   Job Order Action -->
+        <record id="con_job_order_sub_menu_action" model="ir.actions.act_window">
+            <field name="name">Job Order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">job.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create New Job Order
+                </p>
+
+            </field>
+        </record>
+        <!--    Job Order Tree View     -->
+        <record model="ir.ui.view" id="con_job_order_tree">
+            <field name="name">job.order.tree</field>
+            <field name="model">job.order</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="assign_to"/>
+                    <field name="starting_date"/>
+                    <field name="ending_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="con_job_order_form">
+            <field name="name">job.order.form</field>
+            <field name="model">job.order</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_sub_task_creation" type="object" string="Create SubTask" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="con_sub_tasks_smart_button" type="object" class="oe_stat_button"
+                                    icon="fa-tasks">
+                                <field name="sub_task" string="Sub-tasks" widget="statinfo"/>
+                            </button>
+                            <button name="toggle_active" type="object" string="Active" class="oe_stat_button"
+                                    icon="fa-archive">
+                                <field name="active" string="Active" widget="boolean_button"
+                                       options="{&quot;terminology&quot;: &quot;archive&quot;}"/>
+                            </button>
+                            <button name="con_job_order_notes_button" type="object" class="oe_stat_button"
+                                    icon="fa-tasks">
+                                <field name="notes_ad" string="Notes" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Name..."/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="project_id"/>
+                                <field name="assign_to"/>
+                                <field name="starting_date"/>
+                                <field name="ending_date"/>
+                            </group>
+                            <group>
+                                <field name="deadline"/>
+                                <field name="tag_ids" widget="many2many_tags"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <group>
+                                    <field name="note"/>
+                                </group>
+                            </page>
+                            <page string="Material Plannings">
+                                <field name="material_planning_line">
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="name"/>
+                                        <field name="product_uom_quantity"/>
+                                        <field name="product_uom"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="SubTasks">
+                                <field name="sub_task_line">
+                                    <tree editable="bottom">
+                                        <field name="title"/>
+                                        <field name="project_sub_task"/>
+                                        <field name="assign_to"/>
+                                        <field name="planned_hours" sum="Total hours"/>
+                                        <field name="remaining_hours" sum="Total"/>
+                                        <field name="stage_sub_task"/>
+                                        <field name="progress"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Consumed Materials">
+                                <field name="material_planning_line">
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="name"/>
+                                        <field name="product_uom_quantity"/>
+                                        <field name="product_uom"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Materials Requisition">
+                                <field name="material_requisition_line">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="partner_id"/>
+                                        <field name="department_id"/>
+                                        <field name="requisition_date"/>
+                                        <field name="req_deadline"/>
+                                        <field name="company_id"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Stock Move">
+                                <field name="stock_move_line">
+                                    <tree editable="bottom">
+                                        <field name="expected_date"/>
+                                        <field name="creation_date"/>
+                                        <field name="source_document"/>
+                                        <field name="product_ids"/>
+                                        <field name="initial_demand"/>
+                                        <field name="unit_of_measure"/>
+                                        <field name="state_check"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="TimeSheet">
+                                <group>
+                                    <group>
+                                        <div class="oe_inline" name="planned_hours">
+                                            <label for="planned_hours"/>
+                                            <div style="display: inline;">
+                                                <field name="planned_hours" class="oe_inline"
+                                                       style="vertical-align:baseline"/>
+                                            </div>
+                                        </div>
+
+                                    </group>
+                                    <group>
+                                        <div class="oe_inline" name="planned_progress">
+                                            <label for="planned_progress"/>
+                                            <div style="display: inline;">
+                                                <field name="planned_progress" class="oe_inline"
+                                                       widget="gauge"
+                                                       options="{'max_field': 'max_rate',  'style': 'width:120px; height: 90px;'}"/>
+                                            </div>
+                                        </div>
+                                    </group>
+                                </group>
+                                <field name="time_sheet_line">
+                                    <tree editable="bottom">
+                                        <field name="date_time_sheet"/>
+                                        <field name="employee_id"/>
+                                        <field name="name"/>
+                                        <field name="time_period"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+                            <page string="Extra Info">
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

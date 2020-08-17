@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="con_create_sub_task_form" model="ir.ui.view">
+        <field name="name">create.sub.task.form</field>
+        <field name="model">create.subtask</field>
+        <field name="arch" type="xml">
+            <form string="Project User Subtask">
+
+                <group>
+                    <group class="oe_title col-3 col-lg-3">
+                        <label string="Project Subtask User" for="create_id" class="col-3 col-lg-3 o_light_label"/>
+
+                    </group>
+                    <group class="col-9 col-lg-9">
+                        <tree>
+                            <field name="user_id"/>
+                            <field name="task_id"/>
+                            <field name="name"/>
+                            <field name="planned_hours"/>
+
+                        </tree>
+                    </group>
+
+                </group>
+                <footer>
+                    <button string="Create" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+<!--    <record id="con_create_sub_task_action" model="ir.actions.act_window">-->
+<!--        <field name="name">Project User Subtask</field>-->
+<!--        <field name="type">ir.actions.act_window</field>-->
+<!--        <field name="res_model">create.subtask</field>-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--        <field name="view_id" ref="con_create_sub_task_form"/>-->
+<!--        <field name="target">new</field>-->
+<!--    </record>-->
+</odoo>

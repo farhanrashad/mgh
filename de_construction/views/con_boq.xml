@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="purchase_order_wizard_view" model="ir.ui.view">
+            <field name="name">purchase order wizard</field>
+            <field name="model">purchase.order.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Purchase Order Wizard">
+                    <sheet>
+                        <h2>
+                            This wizard will create purchase order for selected Vendor.
+                        </h2>
+                        <notebook>
+                            <page string="Vendors / Suppliers">
+                                <field name="vendor_ids">
+                                    <tree editable="bottom">
+                                        <field name="partner_id"/>
+                                        <field name="phone"/>
+                                        <field name="email"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Select Products">
+                                <field name="order_product_ids">
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="quantity"/>
+                                        <field name="on_hand_qty"/>
+                                        <field name="product_uom"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        <footer>
+                            <button name="action_create_purchase_order" string="Create" class="btn-primary" type="object"/>
+                            <button special="cancel" string="Close" class="oe_link" />
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="purchase_order_wizard_action" model="ir.actions.act_window">
+            <field name="name">Purchase Order Wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order.wizard</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <!--        Action for Estimate Smart Button    -->
+        <record model="ir.actions.act_window" id="con_internal_picking">
+            <field name="name">Internal Picking</field>
+            <field name="res_model">material.boq</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <record id="con_boq_action" model="ir.actions.act_window">
+            <field name="name">Purchase Requisitions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">material.boq</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!--        Purchase Requisitions From View     -->
+        <record id="con_purchase_requisitions_form" model="ir.ui.view">
+            <field name="name">create.purchase.requisitions.form</field>
+            <field name="model">material.boq</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <header>
+                        <button name="action_confirm" id="action_confirm" states="draft" string="Confirm"
+                                class="btn-primary" type="object"/>
+                        <button name="action_cancel" states="draft,sent" type="object" string="Cancel"/>
+                        <button name="action_department_approval" states="waiting" string="Department Approve"
+                                class="btn-primary" type="object"/>
+                        <button name="action_reject" states="waiting,ir,approved" type="object" string="Reject"/>
+                        <button name="con_approve" states="ir" string="Approve" class="btn-primary" type="object"/>
+                        <button name="con_create_picking" states="approved" string="Create Picking and PO" class="btn-primary" type="object"/>
+                        <button name="con_po_received" states="created" string="Received" class="btn-primary" type="object"/>
+<!--                        <button name="action_disposal" string="Purchase Order" class="btn-primary" type="object"/>-->
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="New,waiting,ir,approved,created,recived"/>
+                    </header>
+                    <sheet>
+                        <div name="button_box" class="oe_button_box">
+<!--                            <button class="oe_stat_button" type="action"-->
+<!--                                    name="%(con_internal_picking)d"-->
+<!--                                    icon="fa-star">-->
+<!--                                <field string="Internal Picking" name="con_picking_count" widget="statinfo"/>-->
+<!--                            </button>-->
+                            <button class="oe_stat_button" type="object"
+                                    name="purchase_order_button"
+                                    icon="fa-calendar">
+                                <field string="Purchases" name="purchase_order_count" widget="statinfo"/>
+                            </button>
+                        </div>
+<!--                        <group>-->
+<!--                            <div class="oe_title">-->
+<!--                                <h1>-->
+<!--                                    <field name="name" readonly="1"/>-->
+<!--                                </h1>-->
+<!--                            </div>-->
+<!--                        </group>-->
+                        <group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="operation_type_id"/>
+                                <field name="source_location_id"/>
+                                <field name="picking_type_code" invisible="1"/>
+                                <field name="destination_location_id"
+                                       attrs="{'invisible': [('picking_type_code','=', 'outgoing')]}"/>
+                                <field name="task_id"/>
+                                <field name="user_id"/>
+                                <field name="project_id"/>
+                                <field name="analytic_account_id"/>
+                            </group>
+                            <group>
+                                <field name="requisition_date"/>
+                                <field name="receive_date"/>
+                                <field name="source_document" placeholder="e.g. PO0032"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Requisitions Lines">
+                                <field name="con_requisition_line">
+                                    <tree editable="bottom">
+                                        <field name="requisition_action"/>
+                                        <field name="vendor_id" widget="many2many_tags"/>
+                                        <field name="product_id"/>
+                                        <field name="description"/>
+                                        <field name="product_uom_qty"/>
+                                        <field name="reserved_qty"/>
+                                        <field name="done_qty"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Notes">
+                                <field name="notes"/>
+                            </page>
+                            <page string="Material/ BOQ Cost">
+                                <group>
+                                    <group>
+                                        <field name="equipment_cost"/>
+                                        <field name="worker_cost"/>
+                                        <field name="work_cost_package"/>
+                                        <field name="subcontract_cost"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--        Purchase Requisitions Tree View     -->
+        <record id="con_purchase_requistions_tree" model="ir.ui.view">
+            <field name="name">create.purchase.requistions.tree</field>
+            <field name="model">material.boq</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="department_id"/>
+                    <field name="requisition_date"/>
+                    <field name="req_deadline"/>
+                    <field name="company_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="con_materils_action" model="ir.actions.act_window">
+            <field name="name">BOQ</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">materials.boq</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add a New project
+                </p>
+            </field>
+        </record>
+
+
+    </data>
+</odoo>

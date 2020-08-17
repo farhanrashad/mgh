@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_notes">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <div class="col-xs-8" style="margin:auto">
+                            <table class="table table-condensed" style="border: 3px solid black !important;">
+                                <tr style="border-bottom: 3px solid black">
+                                    <td>
+                                        <strong>
+                                            <b>Project</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>Task</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Responsible User</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p t-field="o.construction_projecct"/>
+                                    </td>
+                                    <td>
+                                        <p t-field="o.task_job_order"/>
+                                    </td>
+                                    <td>
+                                        <p t-field="o.responsible_user"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <p t-field="o.tes_note"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <template id="report_project">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <div class="col-xs-8" style="margin:auto">
+                            <h1>
+                                <p t-field="o.name"/>
+                            </h1>
+                            <table class="table table-condensed" style="border: 3px solid black !important;">
+                                <tr style="border-bottom: 3px solid black">
+                                    <td>
+                                        <strong>
+                                            <b>Customer</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Project Manager</b>
+                                        </strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p t-field="o.customer_name"/>
+                                    </td>
+                                    <td>
+                                        <p t-field="o.project_manager"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <h1>Construction Site Detail:</h1>
+                            <table class="table table-condensed" style="border: 3px solid black !important;">
+                                <tr style="border-bottom: 3px solid black">
+                                    <td>
+                                        <strong>
+                                            <b>Type Of Construction</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Location</b>
+                                        </strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p t-field="o.construction_site"/>
+                                    </td>
+                                    <td>
+                                        <p t-field="o.construction_location"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!--    job order report template-->
+    <template id="report_order_job">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <div class="col-xs-8" style="margin:auto">
+                            <h1>Project Initiation()</h1>
+                            <!--                                        <h1><p t-field="o.project_name"/></h1>-->
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td>
+                                        <strong>
+                                            <b>Project</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>Customer</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Assign To</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Assign Date</strong>
+                                    </td>
+                                    <td>
+                                        <strong>Deadline</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p t-field="o.name"/>
+                                    </td>
+                                    <td>
+                                        <p t-field="o.customer_name"/>
+                                    </td>
+                                    <td>
+                                        <p t-field="o.assign_to"/>
+                                    </td>
+                                    <td>
+                                        <p t-field="o.starting_date"/>
+                                    </td>
+                                    <td>
+                                        <p t-field="o.deadline"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Timesheet</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Date</td>
+                                        <td>User</td>
+                                        <td>Description</td>
+                                        <td>Analytic Account</td>
+                                        <td>Duration</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                    <td>
+<!--                                        <p t-field="o.date_timesheet"/>-->
+                                    </td>
+                                    <td>
+                                        <p t-field="o.employee_name"/>
+                                    </td>
+                                    <td>
+                                        <p t-field="o.name"/>
+                                    </td>
+                                    <td>
+                                        <p t-field="o.analytic_account_id"/>
+                                    </td>
+                                    <td>
+                                        <p t-field="o.time_perioud"/>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <h1>Materials Planning</h1>
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td>
+                                        <strong>
+                                            <b>Product</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>Description</strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Quantity</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Unit of Measure</b>
+                                        </strong>
+                                    </td>
+
+                                </tr>
+                                <t t-foreach="material_list" t-as="i">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="i['product_id']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['name']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['product_uom_quantity']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['product_uom']"/>
+                                        </td>
+
+                                    </tr>
+                                </t>
+                            </table>
+                            <h1>Subtasks</h1>
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td>
+                                        <strong>
+                                            <b>Task Title</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Project</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Assign to</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>Initial Planned Hours</strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Remaining Hours</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Stages</b>
+                                        </strong>
+                                    </td>
+
+                                </tr>
+                                <t t-foreach="subtask_list" t-as="i">
+
+                                    <tr>
+                                        <td>
+                                            <t t-esc="i['title']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['project_subtask']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['assign_to']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['planned_hours']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['remaining_hours']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['stage_subtask']"/>
+                                        </td>
+
+                                    </tr>
+                                </t>
+                            </table>
+                            <h1>Consumed Materials</h1>
+                            <table class="table table-condensed">
+                                <tr>
+                                    <td>
+                                        <strong>
+                                            <b>Product</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>Description</strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Quantity</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Unit of Measure</b>
+                                        </strong>
+                                    </td>
+
+                                </tr>
+                                <t t-foreach="material_list" t-as="i">
+
+                                    <tr>
+                                        <td>
+                                            <t t-esc="i['product_id']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['name']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['product_uom_quantity']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['product_uom']"/>
+                                        </td>
+
+                                    </tr>
+                                </t>
+                            </table>
+                            <h1>Stocks</h1>
+                            <table class="table table-condensed">
+                                <tr>
+                                    <th>
+                                        <strong>
+                                            <b>Expected Date</b>
+                                        </strong>
+                                    </th>
+                                    <th>
+                                        <strong>
+                                            <b>Date</b>
+                                        </strong>
+                                    </th>
+                                    <th>
+                                        <strong>
+                                            <b>Source Documents</b>
+                                        </strong>
+                                    </th>
+                                    <th>
+                                        <strong>Quantity</strong>
+                                    </th>
+                                    <th>
+                                        <strong>
+                                            <b>Unit of Measures</b>
+                                        </strong>
+                                    </th>
+                                    <th>
+                                        <strong>
+                                            <b>Status</b>
+                                        </strong>
+                                    </th>
+
+                                </tr>
+                                <t t-foreach="stockmove_list" t-as="i">
+
+                                    <tr>
+                                        <td>
+                                            <t t-esc="i['expected_date']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['creation_date']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['source_document']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['product_id']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['initial_demand']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['product_uom']"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="i['state_check']"/>
+                                        </td>
+
+                                    </tr>
+                                </t>
+                            </table>
+                            <h3>Signature:______________</h3>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>
