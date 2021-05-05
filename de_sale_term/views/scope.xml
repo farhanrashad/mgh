@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_scope_work_form" model="ir.ui.view">
+        <field name="name">scope.work.form</field>
+        <field name="model">scope.work</field>
+        <field name="arch" type="xml">
+            <form string="Scope of Work">
+                <sheet>
+                    <group>
+                        <field name="name" placeholder="e.g 'Scope Work'"/>
+                    </group>
+                    <group>
+                        <field name='description'/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_scope_work_tree" model="ir.ui.view">
+        <field name="name">scope.work.tree</field>
+        <field name="model">scope.work</field>
+        <field name="arch" type="xml">
+            <tree string="Scope of Work Tree">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="action_scope_work_view" model="ir.actions.act_window">
+        <field name="name">Scope of Work</field>
+        <field name="res_model">scope.work</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_scope_work_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create ""Scope of Work"" Here.......
+            </p>
+        </field>
+    </record>
+
+    <record id="sale_order_scope_view_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.view.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Scope">
+                    <group string="Scope of Work">
+                        <group>
+                            <field name="scope_id"/>
+                        </group>
+                        <br></br>
+                        <group>
+                            <field name="scope_description"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <menuitem id="menu_scope_work"
+              name="Scope Of Work"
+              parent="sale.menu_sale_config"
+              action="de_sale_term.action_scope_work_view"
+              sequence="11"/>
+</odoo>

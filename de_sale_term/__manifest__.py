@@ -1,0 +1,22 @@
+{
+    "name": "Sale Term",
+    "category": 'Sale',
+    "summary": '',
+    "description": """Add Notes in Sales""",
+    "sequence": 0,
+    "author": "Dynexcel",
+    "website": "http://www.dynexcel.co",
+    "version": '14.1.0.0',
+    "depends": ['base', 'sale_management'],
+    "data": [
+        'security/ir.model.access.csv',
+        'views/notes.xml',
+        'views/scope.xml',
+        'views/shipping_terms.xml',
+    ],
+    "price": 25,
+    "currency": 'PKR',
+    "installable": True,
+    "application": True,
+    "auto_install": False,
+}

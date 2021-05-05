@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_notes,access.sale.notes,model_sale_notes,base.group_user,1,1,1,1
+access_scope_work,access.scope.work,model_scope_work,base.group_user,1,1,1,1
+access_shipping_terms,access.shipping.terms,model_shipping_terms,base.group_user,1,1,1,1
