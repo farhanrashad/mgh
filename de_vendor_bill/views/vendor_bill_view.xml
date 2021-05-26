@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         <record id="inherit_purchase_order_form_view" model="ir.ui.view">
+            <field name="name">inherit.purchase.order.form.view</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='action_rfq_send']" position="after">
+                    <button name="send_first_approval_button" type="object" states="draft" string="Send For Approval" class="oe_highlight" id="bid_1st_confirm" />
+                    <button name="send_approval_button" type="object" states="first approve" string="2nd Approval" class="oe_highlight" id="bid_confirm" groups="de_vendor_bill.group_show_purchase_second_approve_button" />
+
+                </xpath> 
+                <xpath expr="//button[@name='button_approve']" position="before">
+                      <button name="button_first_approved" type="object" states="send first approval" string="1st Approved Order" class="oe_highlight" />
+                </xpath>
+
+                <xpath expr="//button[@id='draft_confirm']" position="attributes">
+                     <attribute name="invisible">1</attribute>
+                </xpath>
+                
+                <xpath expr="//header/button[@name='button_approve']" position="attributes">
+                     <attribute name="groups">de_vendor_bill.group_show_purchase_second_approve_button</attribute>
+                     <attribute name="string">Confirm Order</attribute>
+                </xpath>  
+                
+             </field>
+          </record> 
+        
+        
+
+        <record id="inherit_vendor_bill_form_view" model="ir.ui.view">
+            <field name="name">inherit.vendor.bill.form.view</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='button_cancel']" position="before">
+                    <button name="send_first_approval_button" type="object" states="draft" string="Send For Approval" class="oe_highlight" id="bid_1st_confirm" />
+                </xpath>
+                
+                <xpath expr="//button[@name='send_first_approval_button']" position="after">
+                      <button name="send_approval_button" type="object" states="first approve" string="2nd Approval" class="oe_highlight" id="bid_confirm" groups="de_vendor_bill.group_show_second_bill_approve_button"/>
+                </xpath>
+                
+                <xpath expr="//button[@name='send_first_approval_button']" position="after">
+                      <button name="button_first_approved" type="object" states="send first approval" string="1st Approved Order" class="oe_highlight"  />
+
+                </xpath>
+                
+                <xpath expr="//button[@name='button_first_approved']" position="after">
+                      <button name="button_second_approved" type="object" states="to approve" string="Confirm Bill" class="oe_highlight" />
+                    
+                      <button name="button_cancel" string="Cancel" type="object" states="to approve" class="oe_highlight" />
+
+                </xpath>
+                
+                <xpath expr="//button[@name='button_second_approved']" position="after">
+                    <button name="button_cancel" string="Cancel" type="object" states="purchase" class="oe_highlight" />
+                </xpath>
+                
+                
+                
+                
+                
+                <xpath expr="//button[1]" position="attributes">
+                     <attribute name="attrs">{'invisible': ['|', '|', ('state', '!=', 'new'), ('auto_post', '=', True), ('move_type', '!=', 'entry')]}</attribute>
+                </xpath>
+                
+                <xpath expr="//button[2]" position="attributes">
+                     <attribute name="attrs">{'invisible': ['|', '|', ('state', '!=', 'new'), ('auto_post', '=', True), ('move_type', '!=', 'entry')]}</attribute>
+                </xpath>
+
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
