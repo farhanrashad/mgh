@@ -1,0 +1,40 @@
+<odoo>
+  <data>
+      
+      <record model="ir.actions.act_window" id="action_appliction_to_invoice">
+        <field name="name">Application Fee</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">form,list</field>
+        <field name="domain">[('opportunity_id','=',active_id)]</field>
+        <field name="context">{
+            "default_opportunity_id":active_id,
+            "default_user_id": False,
+            "default_opportunity_app_fee": True,
+            }
+        </field>
+    </record>
+      
+      
+    <record id="crm_lead_view_form_inherit" model="ir.ui.view">
+        <field name="name">crm.lead.view.form.inehrit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="%(de_sale_account_docs.action_sale_account_doc_wizard)d" string="Create Financial Document"
+                type="action" class="btn-primary" data-hotkey="q" />
+            </xpath>
+            <xpath expr="//button[@name='action_schedule_meeting']" position="before">
+                    <button type="object"
+                        name="action_view_documents"
+                        class="oe_stat_button"
+                        icon="fa-pencil-square-o"
+                        invisible="bank_doc_count == 0 " >
+                        <field name="bank_doc_count" widget="statinfo" string="Financial docs"/>
+                    </button>
+                </xpath>
+        </field>
+    </record>
+  </data>
+</odoo>

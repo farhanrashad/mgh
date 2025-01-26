@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="stock_picking_project_location_wizard_form_view" model="ir.ui.view">
+        <field name="name">stock.picking.project.location.wizard.form.view</field>
+        <field name="model">stock.picking.project.location.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Project Location Wizard">
+                <group>
+                    <group class="oe_title col-3 col-lg-3">
+                        <field name="project_id" required="1" options="{'no_create':True}"  context="{'form_view_ref': 'de_project_planning.project_site_form_view'}" />
+                        <field name="task_id" domain="[('project_id','=',project_id)]" options="{'no_create':True}"/>
+                        <field name="assign_owner" />
+                        <field name="partner_id" />
+                        <field name="location_id" />
+                    </group>
+                </group>
+                <footer>
+                    <button name="update_project_location" string="Submit" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+   <record id="stock_picking_project_location_wizard_action" model="ir.actions.act_window">
+       <field name="name">Project Location</field>
+       <field name="res_model">stock.picking.project.location.wizard</field>
+       <field name="view_mode">list,form</field>
+       <field name="view_id" ref="stock_picking_project_location_wizard_form_view"/>
+       <field name="target">new</field>
+   </record>
+</odoo>

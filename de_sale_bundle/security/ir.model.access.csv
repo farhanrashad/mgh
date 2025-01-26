@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+1,access_product_bundle,model_product_bundle,base.group_user,1,1,1,1
+2,access_product_bundle_line,model_product_bundle_line,base.group_user,1,1,1,1
+3,access_product_bundle_sale,model_product_bundle_sale,base.group_user,1,1,1,1

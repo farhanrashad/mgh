@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <report
+            id="con_job_order_report"
+            string="Job Order"
+            model="job.order"
+            report_type="qweb-pdf"
+            file="de_project_planning.report_con_job_order_template"
+            name="de_project_planning.report_con_job_order_template" />
+</odoo>

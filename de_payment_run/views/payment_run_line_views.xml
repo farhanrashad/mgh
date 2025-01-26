@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <record id="account_payment_run_line_tree_view" model="ir.ui.view">
+       <field name="name">account.payment.run.line.tree.view</field>
+       <field eval="200" name="priority"/>
+       <field name="model">account.payment.run.line</field>
+       <field name="arch" type="xml">
+           <list sample="1" editable="bottom" >
+                <field name="company_id" column_invisible="1" />
+                <field name="move_id" readonly="1" string="Number"/>
+                <field name="partner_id" />
+                <field name="invoice_date" />
+                <field name="invoice_date_due" />
+                <field name="payment_journal_id" readonly="state in ('approve','cancel')"/>
+                <field name="exclude_for_payment" column_invisible="1"/>
+                <field name="amount_total_signed" sum="Total Sign" optional="show" />
+                <field name="amount_residual_signed" sum="Residual Sign" optional="show" />
+                <field name="amount_total" sum="Total" optional="hide"/>
+                <field name="amount_residual" sum="Residual" optional="hide"/>
+                <field name="amount_to_pay" sum="Amount to Pay"
+                       readonly="state in ('approve','cancel')"/>
+                <field name="currency_id" readonly="1" optional="hide"/>
+                <field name="state" />
+                <field name="parent_state" optional="hide" />
+                <field name="company_id" readonly="1" groups="base.group_multi_company"/>
+                <button name="action_approve" readonly="state in ('approve','cancel')" class="oe_stat_button" icon="fa-file-alt" string="Approve" type="object"/>
+                <button name="action_reject" readonly="state in ('approve','cancel')" class="oe_stat_button" icon="fa-file-alt" string="Reject" type="object"/>
+                <button name="open_Journal_entry" class="oe_stat_button" icon="fa-file-alt" string="View" type="object"/>
+            </list>
+    </field>
+</record>
+
+
+    <!-- Search view -->
+    <record id="account_payment_run_line_filter_view" model="ir.ui.view">
+            <field name="name">account.payment.run.line.filter.view</field>
+            <field name="model">account.payment.run.line</field>
+            <field name="priority" eval="15"/>
+            <field name="arch" type="xml">
+                <search string="Search Proposal Items">
+                    <field name="state" />
+                    <filter string="To Approve" domain="[('state', '=', 'submit')]" name="to_approve_filter"/>
+                    <filter string="Approved" domain="[('state', '=', 'approve')]" name="approved_filter"/>
+                    <filter string="Scheduled" domain="[('state', '=', 'scheduled')]" name="scheduled_filter"/>
+                    <filter string="Posted" domain="[('state', '=', 'posted')]" name="posted_filter"/>
+                    <filter string="Cancel" domain="[('state', '=', 'cancel')]" name="cancel_filter"/>
+                    <group expand="0" string="Group By">
+                        <filter name="state" string="Status" domain="[]" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+    </record>
+    
+
+    
+    <record id="action_payment_run_line" model="ir.actions.act_window">
+        <field name="name">Accounting Documents</field>
+        <field name="res_model">account.payment.run.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{
+            'create':False,
+            'delete': False,
+            'search_default_to_approve_filter': 1,
+            }
+        </field>
+    </record>
+
+    
+    <menuitem name="Proposal Items" 
+        id="menu_finance_payables_payment_proposal_items"
+        parent="account.menu_finance_payables" 
+        action="action_payment_run_line"
+        sequence="60"
+    />
+
+
+    <record id="view_payment_run_line_tree" model="ir.ui.view">
+        <field name="name">account.payment.run.line.tree.view</field>
+        <field name="model">account.payment.run.line</field>
+           <field eval="1" name="priority"/>
+        <field name="arch" type="xml">
+            <list sample="1" editable="bottom">
+                <field name="company_id" column_invisible="1" />
+                <field name="move_id" readonly="1" string="Number"/>
+                <field name="partner_id" />
+                <field name="invoice_date" />
+                <field name="invoice_date_due" />
+                <field name="payment_journal_id" readonly="state in ('approve','cancel')"/>
+                <field name="exclude_for_payment" column_invisible="1"/>
+                <field name="amount_total_signed" sum="Total Sign" optional="show" />
+                <field name="amount_residual_signed" sum="Residual Sign" optional="show" />
+                <field name="amount_total" sum="Total" optional="hide"/>
+                <field name="amount_residual" sum="Residual" optional="hide"/>
+                <field name="amount_to_pay" sum="Amount to Pay" />
+                <field name="currency_id" readonly="1" optional="hide"/>
+                <field name="state" />
+                <field name="parent_state" optional="hide" />
+                <field name="company_id" readonly="1" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+    
+    <record id="action_payment_run_line_display" model="ir.actions.act_window">
+        <field name="name">Accounting Documents</field>
+        <field name="res_model">account.payment.run.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_payment_run_line_tree"/>
+        <field name="context">{
+            'create':False,
+            'delete': False,
+            'search_default_to_approve_filter': 1,
+            }
+        </field>
+    </record>
+    
+</odoo>

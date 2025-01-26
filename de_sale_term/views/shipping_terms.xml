@@ -23,9 +23,9 @@
         <field name="name">shipping.terms.tree</field>
         <field name="model">shipping.terms</field>
         <field name="arch" type="xml">
-            <tree string="Shipping Term Tree">
+            <list string="Shipping Term Tree">
                 <field name="name"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -34,7 +34,7 @@
         <field name="name">Shipping / Payment Term</field>
         <field name="res_model">shipping.terms</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="view_id" ref="view_shipping_term_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -50,13 +50,27 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
                 <page string="Shipping Term">
-                    <group string="Shipping / Payment Term">
+                    <group string="Shipping Term">
                         <group>
-                            <field name="shipping_id"/>
+                            <field name="shipping_id" string="Please Select Your Shipping Terms"/>
                         </group>
                         <br></br>
                         <group>
                             <field name="shipping_description"/>
+                        </group>
+                    </group>
+                </page>
+                
+                <page string="Payment Term">
+                    <group string="Payment Term">
+                        <group>
+                            <field name="payment_term_id" invisible="1" string="Please Select Your Payment Terms"/>
+                            <field name="payment_id"  string="Please Select Your Payment Terms"/>
+                        </group>
+                        <br></br>
+                        <group>
+                            <field name="payment_description" invisible="1"/>
+                            <field name="payment_note"/>
                         </group>
                     </group>
                 </page>
@@ -65,7 +79,7 @@
     </record>
 
     <menuitem id="menu_shipping"
-              name="Shipping Term"
+              name="Shipping Terms"
               parent="sale.menu_sale_config"
               action="de_sale_term.action_shipping_term_view"
               sequence="12"/>

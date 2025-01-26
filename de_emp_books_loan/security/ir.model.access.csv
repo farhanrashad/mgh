@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_loan_type_manager,access.hr.loan.type.manager,model_hr_employee_loan_type,hr.group_hr_manager,1,1,1,1
+access_hr_loan_type_user,access.hr.loan.type.user,model_hr_employee_loan_type,hr.group_hr_user,1,1,1,0
+
+access_hr_loan_type_doc_manager,access.hr.loan.type.doc.manager,model_hr_loan_type_doc,hr.group_hr_manager,1,1,1,1
+access_hr_loan_type_doc_user,access.hr.loan.type.doc.user,model_hr_loan_type_doc,hr.group_hr_user,1,1,1,0
+
+access_hr_employee_loan_docs_manager,access.hr.employee.loan.docs.manager,model_hr_employee_loan_docs,hr.group_hr_manager,1,1,1,1
+access_hr_employee_loan_docs_user,access.hr.employee.loan.docs.user,model_hr_employee_loan_docs,hr.group_hr_user,1,1,1,0
+
+access_hr_employee_loan_user,access.hr.employee.loan.user,model_hr_employee_loan,hr.group_hr_user,1,1,1,1
+access_hr_employee_loan_line_user,access.hr.employee.loan.line.user,model_hr_employee_loan_line,hr.group_hr_user,1,1,1,1
+
+access_hr_employee_loan_deferred_user,access.hr.employee.loan.deferred.user,model_hr_employee_loan_deferred,hr.group_hr_user,1,1,1,1
+
+access_hr_employee_loan_refund_wizard,access.hr.employee.loan.refund.wizard,model_hr_employee_loan_refund_wizard,de_emp_books_loan.group_hr_loan_team_approver,1,1,1,0

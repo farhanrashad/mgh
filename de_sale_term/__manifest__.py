@@ -6,7 +6,7 @@
     "sequence": 0,
     "author": "Dynexcel",
     "website": "http://www.dynexcel.co",
-    "version": '14.1.0.0',
+    "version": '18.0.0.1',
     "depends": ['base', 'sale_management'],
     "data": [
         'security/ir.model.access.csv',

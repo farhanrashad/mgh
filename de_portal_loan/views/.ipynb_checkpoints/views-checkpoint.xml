@@ -1,0 +1,349 @@
+<odoo>  
+    <template id="menu_create_loan" name="Show loan/ ifty" 
+                customize_show="True" inherit_id="portal.portal_my_home"
+                priority="40">
+          <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+              <t t-call="portal.portal_docs_entry">
+              <t t-set="title">Loan</t>
+                  <t t-set="url" t-value="'/advance/loan'"/>
+                  <t t-set="placeholder_count" t-value="'loan_count'"/>
+              </t>
+          </xpath>
+     </template> 
+      
+    
+    
+            <template id="portal_hr_loan" name="Advance Loan">
+                <t t-set="foo" t-value="2 + 1"/>
+                <t t-call="portal.portal_layout"> 
+                    <t t-set="breadcrumbs_searchbar" t-value="True"/>
+                    <t t-call="portal.portal_searchbar">
+                        <t t-set="title">Advance Loan</t>
+                    </t>
+                    <t t-call="portal.portal_table">
+                        <t t-foreach="grouped_loan" t-as="adv_loan">
+                            <thead>
+                                <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                                    <th class="text-left">No#</th>
+                                    <th class="text-left">Description</th>
+                                    <th class="text-left">Employee</th>
+                                    <th class="text-left">Requested Date</th>
+                                    <th class="text-left">Total Amount</th>
+                                    <th class="text-left">Residual Amount</th>
+                                    <th class="text-left">Monthly Installment</th>
+                                    <th class="text-left">Due Date</th>
+                                    <th class="text-left">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="adv_loan" t-as="adv">
+                                    <t t-foreach="adv.loan_line" t-as="line">
+                                    <tr><td class="text-left"><span t-esc="adv.id"/></td>
+                                        <td><a t-attf-href="/advance/loan/#{adv.id}?{{ keep_query() }}"><span t-field="adv.name"/></a></td>
+                                        <td class="text-left"><span t-esc="adv.employee_id.name"/></td>
+                                        <td class="text-left"><span t-esc="adv.date"/></td>
+                                        <td class="text-left"><span t-esc="adv.amount"/></td>
+                                        <td class="text-left"><span t-esc="'{0:,}'.format(int(round(line.amount_residual)))"/></td>
+                                        <td class="text-left"><span t-esc="'{0:,}'.format(int(round(line.amount)))"/></td>
+                                        <td class="text-left"><span t-esc="line.date_due"/></td>
+                                       <td class="text-left">
+                                           <t t-if="adv.state == 'draft'">
+                                               <i class="badge badge-pill badge-info">To Submit</i>
+                                          </t>
+                                          <t t-if="adv.state == 'validate'">
+                                             <i class="badge badge-pill badge-info">Validated</i>
+                                          </t>
+                                          <t t-if="adv.state == 'submit'">
+                                               <i class="badge badge-pill badge-info">Submited</i>
+                                          </t>
+                                           <t t-if="adv.state == 'approved'">
+                                               <i class="badge badge-pill badge-info">Approved</i>
+                                           </t>
+                                           <t t-if="adv.state == 'post'">
+                                               <i class="badge badge-pill badge-info">Posted</i>
+                                           </t>
+                                           <t t-if="adv.state == 'done'">
+                                               <i class="badge badge-pill badge-info">Paid</i>
+                                           </t>
+                                           <t t-if="adv.state == 'close'">
+                                               <i class="badge badge-pill badge-info">Closed</i>
+                                           </t>
+                                            <t t-if="adv.state == 'cancel'">
+                                               <i class="badge badge-pill badge-info">Refused</i>
+                                           </t>
+                                        </td>
+                                    </tr>
+                                    </t>
+                                </t>
+                                <tr>
+                                    <div>
+                                        <t class="col-lg-7 col-md-8">
+                                            <a href="/my/loan">
+                                                <div class="btn btn-primary pull-left" style="height:30px; line-height:100%; ">Create</div>
+                                            </a>
+                                        </t>
+                                    </div>
+                                </tr>
+                            </tbody>
+                        </t>
+                    </t>
+                </t>
+                </template>
+    
+    
+                <template id="from_portal_loan" name="Advance loan Request">
+                    
+                    
+                        <t t-call="portal.portal_layout">
+               
+                        <div id="wrap">
+                        <div class="oe_structure" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[1]">
+                        <section class="s_title parallax s_parallax_is_fixed bg-white-100 pt24 pb24" data-vcss="001" data-snippet="s_title" data-scroll-background-ratio="1">
+                        <span class="s_parallax_bg oe_img_bg" style="background-image: url('/de_portal_advance_salary_request/static/description/b2.jpg'); background-position: 50% 0;"/>
+                        <div class="o_we_bg_filter bg-white-50"/>
+                        <div class="container">
+                        <h1 style="margin-left:10px">Loan</h1>
+                        </div>
+                        </section>
+                        </div>
+                        <div class="container mt-4 mb-5">
+                        <div class="row">
+                        <div class="col-lg-7 col-xl-6 mr-lg-auto">
+                        <div class="oe_structure" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[2]/div[1]/div[1]/div[1]">
+                        <section class="s_text_block" data-snippet="s_text_block">
+                        <div class="container">
+                        <div class="row">
+                        <div class="col-lg-12">
+                        <p> Submit Your Loan Request From Here. </p>
+                        </div>
+                        </div>
+                        </div>
+                        </section>
+                        </div>
+                        <span class="hidden" data-for="contactus_form" data-oe-id="2822" data-oe-xpath="/data/xpath/span" data-oe-model="ir.ui.view" data-oe-field="arch" data-values="{'employee_id': '', 'manager': '', 'date_end': '', 'description': ''}"/>
+                        <div id="leave_section" data-oe-id="3374" data-oe-xpath="/data/xpath[2]/div" data-oe-model="ir.ui.view" data-oe-field="arch">
+                        <section class="s_website_form" data-vcss="001" data-snippet="s_website_form">
+                        <div class="container">
+                        <form id="portal_advance_salary_form" data-toggle="validator" action="/create/loan">    
+                         
+                       <div class="form-group col-12 s_website_form_field s_website_form_required" data-type="text" data-name="Field">
+                             <div class="row s_col_no_resize s_col_no_bgcolor">
+                                    <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="advance5">
+                                                <span class="s_website_form_label_content">Description</span>
+                                                <span class="s_website_form_mark"> *</span>
+                                    </label>
+                                    <div class="col-sm">
+                                         <textarea id="name" class="form-control s_website_form_input" name="name" required=""></textarea>
+                                    </div>
+                            </div>
+                        </div>
+                            
+                            
+                            
+                        <div class="s_website_form_rows row s_col_no_bgcolor">
+                        <div class="form-group col-12 s_website_form_field" data-type="char" data-name="Field">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="advance1">
+                        <span class="s_website_form_label_content">Employee</span>
+                        <span class="s_website_form_mark"> *</span>
+                        </label>
+                        <div class="col-sm">
+                        <select class="form-control o_website_form_input" name="employee_id" readonly="1" required="1">
+                        <t t-foreach="employees" t-as="emp">
+                        <option t-att-value="emp.id">
+                        <t t-esc="emp.name"/>
+                        </option>
+                        </t>
+                        </select>
+                        </div>
+                        </div>
+                        </div>  
+                        
+                            
+                        <div class="form-group col-12 s_website_form_field s_website_form_required" data-type="char" data-name="Field">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="advance2">
+                        <span class="s_website_form_label_content">Manager</span>
+                        <span class="s_website_form_mark"> *</span>
+                        </label>
+                       <div class="col-sm">
+                        <select class="form-control o_website_form_input" name="employee_id" readonly="1" required="1">
+                        <t t-foreach="employees" t-as="emp">
+                        <option t-att-value="emp.id">
+                        <t t-esc="emp.parent_id.name"/>
+                        </option>
+                        </t>
+                        </select>
+                        </div>
+                            </div>
+                        </div>
+                            
+                            
+                        <div class="form-group col-12 s_website_form_field s_website_form_required" data-type="text" data-name="Field">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="advance5">
+                        <span class="s_website_form_label_content">Product</span>
+                        <span class="s_website_form_mark"> *</span>
+                        </label>
+                        <div class="col-sm">
+                        <select class="form-control o_website_form_input" name="product_id" readonly="1" required="1">
+                        <t t-foreach="product" t-as="pro">
+                        <option t-att-value="pro.id">
+                        <t t-esc="pro.name"/>
+                        </option>
+                        </t>
+                        </select>
+                        </div>
+                        </div>
+                        </div>
+                            
+                        <div class="form-group col-12 s_website_form_field s_website_form_required" data-type="text" data-name="Field">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="advance5">
+                        <span class="s_website_form_label_content">Loan Type</span>
+                        <span class="s_website_form_mark"> *</span>
+                        </label>
+                        <div class="col-sm">
+                        <select class="form-control o_website_form_input" name="loan_type_id" readonly="1" required="1">
+                        <t t-foreach="loan_type" t-as="typ">
+                        <option t-att-value="typ.id">
+                        <t t-esc="typ.name"/>
+                        </option>
+                        </t>
+                        </select>
+                        </div>
+                        </div>
+                        </div>
+                            
+                            
+                        <div class="form-group col-12 s_website_form_field s_website_form_required" data-type="char" data-name="Field">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="advance2">
+                        <span class="s_website_form_label_content">Loan Amount</span>
+                        <span class="s_website_form_mark"> *</span>
+                        </label>
+                        <div class="col-sm">
+                        <input type="float" class="form-control s_website_form_input" name="amount" required="True"/>
+                        </div>
+                        </div>
+                        </div>
+                            
+                            
+                            
+                        <div class="form-group col-12 s_website_form_field s_website_form_required" data-type="char" data-name="Field">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="advance2">
+                        <span class="s_website_form_label_content">Start date</span>
+                        <span class="s_website_form_mark"> *</span>
+                        </label>
+                        <div class="col-sm">
+                        <input type="Date" class="form-control s_website_form_input" name="date_start" required="True"/>
+                        </div>
+                        </div>
+                        </div>
+                            
+                            
+                        <div class="form-group col-12 s_website_form_field s_website_form_required" data-type="char" data-name="Field">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="advance2">
+                        <span class="s_website_form_label_content">Installment</span>
+                        <span class="s_website_form_mark"> *</span>
+                        </label>
+                        <div class="col-sm">
+                        <input type="float" class="form-control s_website_form_input" name="installments" required="True"/>
+                        </div>
+                        </div>
+                        </div>
+                            
+                            
+                        <div class="form-group col-12 s_website_form_field s_website_form_required" data-type="char" data-name="Field">
+                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="advance2">
+                        <span class="s_website_form_label_content">End Date</span>
+                        <span class="s_website_form_mark"> *</span>
+                        </label>
+                        <div class="col-sm">
+                        <input type="Date" class="form-control s_website_form_input" name="date_end" required="True"/>
+                        </div>
+                        </div>
+                        </div>
+                            
+                           
+                             <div class="oe_structure mt-2" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[3]"/>
+                        </div>
+                             <div class="form-group col-12 s_website_form_field s_website_form_required" data-name="Field" data-type="text">
+                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="opportunity7">
+                                <span class="s_website_form_label_content">Attachment</span><span class="s_website_form_mark">
+                                    </span></label><input name="csrf_token" t-att-value="request.csrf_token()" type="hidden"/>
+                                <div class="col-sm"><input name="attachment" class="form-control s_website_form_input" type="file" accept="image/,application/pdf,video/" multiple="true"/>
+                                </div>
+                            </div>
+                            
+                        <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
+                        <div style="width: 200px;" class="s_website_form_label"/>
+                        <button type="submit" class="btn btn-primary pull-left">Submit</button>
+                        <span id="s_website_form_result"/>
+                        </div>
+                        </div>
+                        </form>
+                        </div>
+                        </section>
+                        </div>
+                        </div>
+                        <div class="col-lg-4 mt-4 mt-lg-0">
+                        <div class="section-custom col-md-12">
+                        <a class="mb-5" id="submit-leave" t-attf-href="/advance/loan">
+                        <button t-attf-class="btn btn-primary #{'col-md-10' if multi_type else 'col-md-12'} mb-2">View my Loan</button>
+                        </a>
+                        </div>
+                        <address itemscope="itemscope" itemtype="http://schema.org/Organization">
+                        <div>
+                        <address class="mb-0" itemscope="itemscope" itemtype="http://schema.org/Organization">
+                        <div> 
+                            </div>
+                        <div itemprop="address" itemscope="itemscope" itemtype="http://schema.org/PostalAddress"> </div>
+                        </address>
+                        </div>
+                        </address>
+                        </div>
+                        </div>
+                        </div>
+                        <div class="oe_structure mt-2" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[3]"/>
+                        </div>
+                            
+                        </t>
+                        </template>
+
+    
+    <record id= "loan_thankx" model="website.page">
+        <field name="name">Thanks</field>
+        <field name="type">qweb</field>
+        <field name="url">/loan-thank-you</field>
+        <field name="website_published">True</field>
+        <field name="key">de_portal_loan.loan_thankx</field>
+        <field name="arch" type="xml">
+        <t name="Thanks" t-name="de_portal_loan.loan_thankx">
+            <t t-call="website.layout">
+                <div id="wrap">
+                    <div class="container">
+                        <h1>Thanks</h1>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="alert alert-success" role="status">
+                                    The Loan has been Submited successfully
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            </t>
+        
+        </field>
+    </record>
+    
+      
+      
+    
+</odoo>

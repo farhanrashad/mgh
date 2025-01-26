@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_advance_type_manager,access.hr.advance.type.manager,model_hr_employee_advance_type,hr.group_hr_manager,1,1,1,1
+access_hr_advance_type_user,access.hr.advance.type.user,model_hr_employee_advance_type,hr.group_hr_user,1,1,1,0
+access_hr_advance_type_team_approver,access.hr.advance.type.team.approver,model_hr_employee_advance_type,de_emp_books_salary_advances.group_hr_advance_team_approver,1,0,0,0
+
+access_hr_employee_advance_team_approver,hr.employee.advance.team.approver,model_hr_employee_advance,de_emp_books_salary_advances.group_hr_advance_team_approver,1,1,1,0
+access_hr_employee_user,hr.advance.employee.user,model_hr_employee_advance,de_emp_books_salary_advances.group_hr_advance_user,1,1,1,1
+access_hr_employee_manager,hr.advance.employee.manager,model_hr_employee_advance,de_emp_books_salary_advances.group_hr_advance_manager,1,1,1,1
+
+access_hr_advance_refuse_wizard,access.hr.advance.refuse.wizard,model_hr_employee_advance_refuse_wizard,de_emp_books_salary_advances.group_hr_advance_team_approver,1,1,1,0
+
+access_hr_advance_deffered_wizard,access.hr.advance.deffered.wizard,model_hr_employee_advance_deffered_wizard,de_emp_books_salary_advances.group_hr_advance_team_approver,1,1,1,0
+
+
+

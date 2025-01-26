@@ -1,0 +1,28 @@
+<odoo>
+
+    <!--     Application Menu     -->
+    <menuitem name="Project Planning" id="project_planning_root_menu" sequence="3"
+              web_icon="de_project_planning,static/description/icon.png"/>
+
+    <!--      Main Menus  -->
+        <menuitem name="Operations" id="project_planning_ops_main_menu" parent="project_planning_root_menu" sequence="10"/>
+    <menuitem name="Planning" id="project_planning_planning_main_menu" parent="project_planning_root_menu" sequence="20"/>
+        <menuitem name="BOQ" id="project_planning_boq_main_menu" parent="project_planning_root_menu" sequence="30"/>
+        <menuitem name="Configuration" id="project_planning_configuration_main_menu" parent="project_planning_root_menu" sequence="50"/>
+
+
+    <!-- Operations Menu Items -->
+
+
+    <!-- Planning Menu Items -->
+    <!--
+    <menuitem name="Material Requisitions/BOQ" id="project_planning_planning_boq_menu" parent="project_planning_planning_main_menu" action="con_boq_action" />
+-->
+
+    <!--     Products Menu Items   -->
+    <!--
+    <menuitem name="Products" id="project_planning_products_products_menu" parent="project_planning_products_main_menu" action="con_materils_action" sequence="0"/>
+-->
+    
+
+</odoo>

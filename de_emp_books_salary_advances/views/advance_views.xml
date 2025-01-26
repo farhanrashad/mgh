@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <record id="hr_employee_advance_type_search_view" model="ir.ui.view">
+            <field name="name">hr.employee.advance.type.search.view</field>
+            <field name="model">hr.employee.advance.type</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="name" string="Type" filter_domain="['|',('name','ilike',self)]"/>
+                  
+               </search>
+            </field>
+        </record>
+
+
+        <record id="hr_employee_advance_type_form_view" model="ir.ui.view">
+            <field name="name">hr.employee.advance.type.form.view</field>
+            <field name="model">hr.employee.advance.type</field>
+            <field name="arch" type="xml">
+                <form string="Advance">
+                	<sheet>
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name" string="Type"/>
+                            <h1><field name="name" placeholder="e.g. Salary Advance"/></h1>
+                        </div>
+                        <group name="Advance Details">
+                            <group string="Product Information">
+                                <field name="product_id" options="{'no_create':True}" />
+                            </group>
+                            
+                        </group>
+		            </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="employee_advance_type_tree_view">
+            <field name="name">hr.advance.type.tree.view</field>
+            <field name="model">hr.employee.advance.type</field>
+            <field name="arch" type="xml">
+                <list string=" Advance type">
+                    <field name="name"/>
+                   <field name="product_id"/>
+                </list>
+            </field>
+        </record>
+
+        
+        <record id="action_employee_advance_type" model="ir.actions.act_window">
+            <field name="name">Advacne Type</field>
+            <field name="res_model">hr.employee.advance.type</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="employee_advance_type_tree_view"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new advance type
+              </p>
+            </field>
+        </record>  
+
+        <menuitem id="menu_emp_fin_config_advance_type" action="action_employee_advance_type" parent="menu_emp_books_config_advance" name="Advance Type" sequence="1" groups="hr.group_hr_manager,de_emp_books_salary_advances.group_hr_advance_manager"/>
+        
+        <!-- Advance Request views -->
+        <record model="ir.ui.view" id="hr_employee_advance_tree_view">
+            <field name="name">hr.employee.advance.tree.view</field>
+            <field name="model">hr.employee.advance</field>
+            <field name="arch" type="xml">
+                <list string=" Advance type" decoration-muted="state in ('cancel','close')" >
+                    <field name="name"/>
+                    <field name="ref"/>
+                    <field name="date" />
+                    <field name="date_due" optional="hide"/>
+                    <field name="employee_id" />
+                    <field name="manager_id" />
+                    <field name="department_id" optional="hide" />
+                    <field name="amount" />
+                    <field name="currency_id" optional="hide" />
+                    <field name="company_id" optional="hide" />
+                    <field name="exception" string="Exception" optional="hide" widget="badge" decoration-danger="exception != False" />
+                    <field name="state" optional="show" widget="badge" decoration-success="state == 'done'" decoration-primary="state in ('post','approved')" decoration-danger="state == 'submit'" decoration-muted="state in ('draft','submit','close')"/>
+
+                </list>
+            </field>
+        </record>
+        
+        <record id="hr_employee_advance_form_view" model="ir.ui.view">
+            <field name="name">hr.employee.advance.form.view</field>
+            <field name="model">hr.employee.advance</field>
+            <field name="arch" type="xml">
+                <form string="Advances" class="o_advance_form">
+                    <field name="can_reset" invisible="1"/>
+                    <header>
+                        <button name="action_submit_advance"    invisible="state != 'draft'" string="Submit to Manager" type="object" class="oe_highlight o_expense_sheet_submit"/>
+                        <button name="approve_advance"    invisible="state != 'submit'" string="Approve" type="object" groups="de_emp_books_salary_advances.group_hr_advance_team_approver" class="oe_highlight o_expense_sheet_approve"/>
+                        
+                        <button name="close_advance" invisible="state != 'done'" string="Close" type="object" groups="de_emp_books_salary_advances.group_show_employee_advance_close_button" class="oe_highlight o_expense_sheet_approve"/>
+
+                        <button name="%(de_emp_books_salary_advances.hr_advance_refuse_wizard_action)d" invisible="state not in ['submit','approved'" context="{'hr_advance_refuse_model':'hr.employee.advance'}" string="Refuse" type="action" groups="de_emp_books_salary_advances.group_hr_advance_team_approver" />
+                        <!--
+                        <button name="%(de_emp_books_salary_advances.hr_advance_request_deffered_wizard_action)d" context="{'hr_advance_deffered_model':'hr.employee.advance'}" string="Deffered Deduction Request" type="action" class="oe_highlight" groups="de_emp_books_salary_advances.group_hr_advance_team_approver" />
+-->
+
+                        <button name="reset_advance_request" string="Reset to Draft" type="object"
+                                invisible="can_reset == False or state not in ['submit', 'cancel'])" data-hotkey="q"/>
+                        
+                         <button name="action_create_bill"
+                            string="Post Journal Entries"
+                            type="object"
+                            class="oe_highlight o_expense_sheet_post"
+                            invisible="state != 'approved'"
+                            groups="account.group_account_invoice"/>
+                        
+
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submit,approved,post,done"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Paid" bg_color="bg-success"
+                                invisible="state != 'done'"/>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="e.g. Salary Request"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="employee_id" required="1" options="{'no_create':True}" />
+                                <field name="manager_id" readonly="1" options="{'no_create':True}" />
+                                <field name="job_id" options="{'no_create':True}" />
+                                <field name="department_id" />
+                                <field name="advance_type_id" required="1" options="{'no_create':True}" />
+                                <field name="amount"/>
+                                <field name="currency_id" required="1" options="{'no_create':True}" />
+                                
+                            </group>
+                            <group>
+                                
+                                <field name="date"/>
+                                <field name="date_due"/>
+                                <field name="ref"/>
+                                <field name="accounting_date"
+                                       invisible="accounting_date == False or state not in ['approved', 'done']" />
+                                <field name="product_id" />
+                                 <field name="product_uom_id" />
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="user_id" readonly="1" options="{'no_create':True}" string="Requested By"/>
+                                
+                                <field name="applicable_amount" string="Available Limit"/>
+                                <field name="allow_exceeded_limit" />
+                            </group>
+                        </group>
+                        <div>
+                            <field name="description" class="oe_inline" placeholder="Notes..."/>
+                        </div>
+                        <notebook>
+                            <page name="accounting_info" string="Accounting" groups="account.group_account_user,account.group_account_manager">
+                                <group>
+                                    <group>
+                                        <field name="journal_id" options="{'no_create':True,'no_open':True}"/>
+                                        <field name="account_move_id" />
+                                        <field name="payment_state" invisible="1" />
+                                        <field name="amount_ded" />
+                                        <field name="balance" />
+                                    </group>
+                                    <group>
+                                        <field name="address_id" string="Partner"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="o_attachment_preview"/>
+                    <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+                </form>
+            </field>
+        </record>
+        <record id="hr_employee_advance_view_search" model="ir.ui.view">
+            <field name="name">hr.employee.advance.view.search</field>
+            <field name="model">hr.employee.advance</field>
+            <field name="arch" type="xml">
+                <search string="Advance">
+                    <field string="Advance Request" name="name"/>
+                    <field string="Reference" name="ref"/>
+                    <field name="employee_id"/>
+                    <field name="date"/>
+                    <field name="date_due"/>
+                    <separator />
+                    <field name="employee_id"/>
+                    <field string="Department" name="department_id" operator="child_of"/>
+                    <filter string="My Requests" name="my_requests" domain="[('employee_id.user_id', '=', uid)]"/>
+                    <filter string="My Team" name="my_team_requests" domain="[('employee_id.parent_id.user_id', '=', uid)]" groups="de_emp_books_salary_advances.group_hr_advance_manager" help="Requests of Your Team Member"/>
+                    <separator />
+                    <filter domain="[('state', '=', 'submit')]" string="To Approve" name="submitted" help="Confirmed Advances"/>
+                    <filter domain="[('state', '=', 'approved')]" string="To Post" name="to_post" help="Approved Requests"/>
+                    <filter domain="[('state', '=', 'done')]" string="Paid" name="paid" help="Expenses to Invoice"/>
+                    <filter domain="[('state', '=', 'cancel')]" string="Refused" name="canceled"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Employee" name="employee" domain="[]" context="{'group_by': 'employee_id'}"/>
+                        <filter string="Department" name="department" domain="[]" context="{'group_by': 'department_id'}"/>
+                        <filter string="Company" name="company" domain="[]" context="{'group_by': 'company_id'}" groups="base.group_multi_company"/>
+                        <filter string="Date" name="expenses_month" domain="[]" context="{'group_by': 'accounting_date'}" help="Expenses by Date"/>
+                        <filter string="Status" domain="[]" context="{'group_by': 'state'}" name="state"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        
+        <record id="action_hr_employee_advance" model="ir.actions.act_window">
+            <field name="name">Request for Advance Salary</field>
+            <field name="res_model">hr.employee.advance</field>
+            <field name="view_mode">list,kanban,form,graph,pivot</field>
+            <field name="search_view_id" ref="hr_employee_advance_view_search"/>
+            <field name="context">{'search_default_my_requests':1}</field>
+            <field name="domain">[('state', 'in', ['draft'])]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No salary advance request found. Let's create one!
+                </p><p>
+                    Employee requests for advance payment for due month salary salary.  
+                </p>
+            </field>
+        </record>
+      
+        
+        <menuitem id="menu_emp_books_employee_advance_request" action="action_hr_employee_advance" parent="menu_emp_books_salary_advance" name="Request for Advance Salary" sequence="1" groups="hr.group_hr_user,de_emp_books_salary_advances.group_hr_advance_team_approver"/>
+        
+        
+        <record id="action_hr_employee_advance_to_approve" model="ir.actions.act_window">
+            <field name="name">Requests to Approve</field>
+            <field name="res_model">hr.employee.advance</field>
+            <field name="view_mode">list,kanban,form,graph,pivot</field>
+            <field name="search_view_id" ref="hr_employee_advance_view_search"/>
+            <field name="context">{'search_default_submitted':1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No salary advance request found. Let's create one!
+                </p><p>
+                    Employee requests for advance payment for due month salary salary.  
+                </p>
+            </field>
+        </record>
+      
+        
+        <menuitem id="menu_emp_books_employee_advance_request_to_approve" action="action_hr_employee_advance_to_approve" parent="menu_emp_books_salary_advance" name="Requests to Approve" sequence="2" groups="hr.group_hr_user,de_emp_books_salary_advances.group_hr_advance_user"/>
+        
+        
+        
+        
+        <record id="action_hr_employee_advance_open" model="ir.actions.act_window">
+            <field name="name">Open Request</field>
+            <field name="res_model">hr.employee.advance</field>
+            <field name="view_mode">list,kanban,form,graph,pivot</field>
+            <field name="search_view_id" ref="hr_employee_advance_view_search"/>
+            <field name="context">{'create':False, 'search_default_my_requests':1}</field>
+            <field name="domain">[('state', 'not in', ['close','done','cancel'])]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No salary advance request found. Let's create one!
+                </p>
+            </field>
+        </record>
+      
+        
+        <menuitem id="menu_emp_books_employee_advance_open" action="action_hr_employee_advance_open" parent="menu_emp_books_salary_advance" name="Open Requests" sequence="3" groups="hr.group_hr_user,de_emp_books_salary_advances.group_hr_advance_team_approver"/>
+        
+        <record id="action_salary_advances_all" model="ir.actions.act_window">
+            <field name="name">My All Requests</field>
+            <field name="res_model">hr.employee.advance</field>
+            <field name="view_mode">list,kanban,form,graph,pivot</field>
+            <field name="search_view_id" ref="hr_employee_advance_view_search"/>
+            <field name="context">{'create':False, 'search_default_my_requests':1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No salary advance request found. Let's create one!
+                </p>
+            </field>
+        </record>
+      
+        
+        <menuitem id="menu_emp_books_employee_advance_all" action="action_salary_advances_all" parent="menu_emp_books_salary_advance" name="My All Requests" sequence="4" groups="hr.group_hr_user,de_emp_books_salary_advances.group_hr_advance_team_approver"/>
+        
+        <record id="action_salary_advances_my_team" model="ir.actions.act_window">
+            <field name="name">My Team Requests</field>
+            <field name="res_model">hr.employee.advance</field>
+            <field name="view_mode">list,kanban,form,graph,pivot</field>
+            <field name="search_view_id" ref="hr_employee_advance_view_search"/>
+            <field name="context">{'create':False, 'search_default_my_team_requests':1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No salary advance request found. Let's create one!
+                </p>
+            </field>
+        </record>
+      
+        
+        <menuitem id="menu_emp_books_employee_advance_my_team" action="action_salary_advances_my_team" parent="menu_emp_books_salary_advance" name="My Team Requests" sequence="4" groups="hr.group_hr_user,de_emp_books_salary_advances.group_hr_advance_user"/>
+
+        
+    </data>
+</odoo>

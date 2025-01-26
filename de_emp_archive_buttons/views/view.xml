@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<odoo>
+
+	<record id="view_inherited_hr_expense_prepayment_form_view" model="ir.ui.view">
+		<field name="name">view.hr.expense.prepayment.form_view</field>
+		<field name="model">hr.expense.prepayment</field>
+		<field name="inherit_id" ref="de_emp_books_expense_prepayments.hr_expense_prepayment_form_view" />
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='employee_id']" position="after">
+				<field name="active" invisible="1"/>
+			</xpath>
+			<xpath expr="//header" position="inside">
+                <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+						invisible = "active == True"/>.0
+			</xpath>
+		</field>
+	</record>
+
+	<record id="view_inherited_hr_expense_prepayment_line_tree_view" model="ir.ui.view">
+		<field name="name">view.hr.expense.prepayment.line.tree_view</field>
+		<field name="model">hr.expense.prepayment.line</field>
+		<field name="inherit_id" ref="de_emp_books_expense_prepayments.hr_expense_prepayment_line_unreconciled_tree_view" />
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='employee_id']" position="after">
+				<field name="active" invisible="1"/>
+			</xpath>
+		</field>
+	</record>
+
+	<record id="view_inherited_hr_expense_prepayment_tree_view" model="ir.ui.view">
+		<field name="name">view.hr.expense.prepayment.tree_view</field>
+		<field name="model">hr.expense.prepayment</field>
+		<field name="inherit_id" ref="de_emp_books_expense_prepayments.hr_expense_prepayment_tree_view" />
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='employee_id']" position="after">
+				 <field name="active" widget="boolean_toggle" />
+			</xpath>
+
+		</field>
+	</record>
+
+</odoo>

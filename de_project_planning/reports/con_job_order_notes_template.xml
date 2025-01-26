@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_con_job_order_notes_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <div class="row justify-content-end">
+                            <div class="col-12">
+                                <table class="table table-bordered" style="table-layout: fixed">
+                                    <thead>
+                                        <tr>
+                                            <th>Project</th>
+                                            <th>Task</th>
+                                            <th>Responsible</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <span t-field="o.project_id"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.task_id"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.user_id"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p style="margin: 0px; padding: 0px; font-weight: bold;">
+                                    <span t-field="o.note"/>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <template id="con_job_order_notes_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="de_project_planning.report_con_job_order_notes_template"/>
+            </t>
+        </t>
+    </template>
+</odoo>

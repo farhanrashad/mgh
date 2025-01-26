@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="sale_account_doc_wizard_form_view" model="ir.ui.view">
+            <field name="name">sale.account.doc.wizard.form.view</field>
+            <field name="model">sale.account.docs.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Accounting Documents">
+                    <p class="oe_grey">
+                        Accounting documents will be created in draft so that you can review
+                        them before validation.
+                    </p>
+                    <group>   
+                        <group>
+                        <field name="journal_id" options="{'no_create': True}"                             groups="account.group_account_manager"/>
+                        <field name="product_id"
+                            context="{'default_invoice_policy': 'order'}" 
+                            required="1"/>
+                            
+                        <!-- Document Amount -->
+                                <label for="amount" string="Amount" />
+                                <div class="d-flex" >
+                                    <field name="amount" required="1" force_save="1" placeholder="Amount" widget='monetary' options="{'currency_field': 'currency_id'}" />
+                                    <field name="currency_id" required="1" options="{'no_create': True}" />
+                                </div>
+                            
+                        
+                        
+                        <field name="account_id" options="{'no_create': True}" 
+                            groups="account.group_account_manager" invisible="1"/>
+                        <field name="taxes_id" widget="many2many_tags"
+                            domain="[('type_tax_use','=','sale')]" invisible="1"
+                            />
+                        </group>
+                        <group>
+                            <field name="date_effective" />
+                            <field name="date_expire" />
+                            <field name="bank_ref" />
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="create_financial_document" id="create_financial_document_open" string="Create and View Document" type="object" context="{'open_documents': True}" class="btn-primary" data-hotkey="q"/>
+                        <button name="create_financial_document" id="create_financial_document" string="Create Docuemnt" type="object" data-hotkey="w"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_sale_account_doc_wizard" model="ir.actions.act_window">
+            <field name="name">Create Accounting Document</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.account.docs.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <!-- TODO: check if we need this -->
+            <field name="binding_model_id" ref="crm.model_crm_lead" />
+            <field name="binding_view_types">list</field>
+        </record>
+
+</odoo>

@@ -1,0 +1,54 @@
+table.roundedCorners {
+
+  border:1px solid black;
+
+
+
+   box-shadow: 10px 10px 10px  #888888;
+
+  }
+table.roundedCorners td,
+table.roundedCorners th {
+  border-bottom: 1px solid black;
+  padding:10px;
+  text-align:left;
+
+  }
+.test
+  {
+    border-right:1px solid black;
+    background-color:#d1d1d1;
+    color:black;
+    width:50%;
+  }
+  .test2
+  {
+
+    width:50%;
+  }
+   .test3
+  {
+
+    width:10%;
+    border-right:1px solid black;
+    padding:3px;
+
+    align:center;
+    font-size:18px;
+    background-color:#d1d1d1;
+  }
+   .test4
+  {
+
+    width:95%;
+
+  }
+.set_adjust1
+{
+margin-top:10px;
+}
+
+.set_adjust2
+{
+
+}

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="custom_session_header_footer">
+        <t t-set="company" t-value="user.company_id"/>
+        <div class="header" >
+            <div class="row">
+
+                <div class="col-3">
+                    <img class="img" src="/de_report_customization/static/src/image/header.png" width="100%" height="70px" />
+                </div>
+                <div class="col-6" >
+                    <!-- <table width="100%">
+                        <tr>
+                            <td>
+                                <span>589/590, J-Block, Johar Town,Lahore</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>Pakistan</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>
+                                    WWW.WKRASSOCIATES.COM
+                                </span>
+                            </td>
+                        </tr>
+                    </table> -->
+                </div>
+
+                <div class="col-3 text-right">
+                    Page:
+                    <span class="page"/>
+                    of
+                    <span class="topage"/>
+                </div>
+
+
+            </div>
+
+        </div>
+        <div class="footer">
+            <div class="row">
+                <img class="img" src="/de_report_customization/static/src/image/footer.png"  />
+            </div>
+        </div>
+    </template>
+
+</odoo>

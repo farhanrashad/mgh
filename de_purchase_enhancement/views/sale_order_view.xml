@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="fleet_vehicle_smart_button" model="ir.ui.view">
+        <field name="name">sale.order.form.view.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <div name="button_box" position="inside">
+                <button class="oe_stat_button" icon="fa-list-alt" type="object" name="get_PurchaseOrder">
+                    <field name="po_count" string="Purch Order" widget="statinfo"/>
+                </button>
+            </div>
+        </field>
+    </record>
+</odoo>

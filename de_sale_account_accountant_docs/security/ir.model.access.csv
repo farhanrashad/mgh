@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_de_sale_account_accountant_docs_de_sale_account_accountant_docs,de_sale_account_accountant_docs.de_sale_account_accountant_docs,model_de_sale_account_accountant_docs_de_sale_account_accountant_docs,base.group_user,1,1,1,1

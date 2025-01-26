@@ -1,0 +1,140 @@
+<odoo>
+
+    <record id="view_account_analytic_line_tree_de_inherit" model="ir.ui.view">
+            <field name="name">account.analytic.line.tree.inherit.account</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="hr_timesheet.hr_timesheet_line_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='name']" position="after">
+                         <field name="validated_by" string="Validated By" readonly="1"/>
+                    </xpath>
+                </data>
+            </field>
+    </record>
+
+    <template id="portal_my_home"  inherit_id="hr_timesheet.portal_my_timesheets" >
+        <xpath expr="//thead/tr/th[@t-if='is_uom_day']" position="before">
+            <th t-if="not groupby == 'sol2'">Validated by</th>
+        </xpath>
+        <xpath expr="//tbody/td" position="inside">
+            <td t-if="not groupby == 'sol4'"><span t-esc="timesheet.validated_by" t-att-title="timesheet.validated_by"/></td>
+        </xpath>
+    </template>
+
+    <template id="portal_searchbar_inh" inherit_id="portal.portal_searchbar">
+        <xpath expr="//nav" position="inside">
+          <!-- <t t-if="is_admin == True"> -->
+            <a class="btn btn-secondary my-2 ml-1" t-if="page_name == 'timesheet'"  href="/create/timesheet">Create</a>
+          <!-- </t> -->
+          <!-- <t t-else="is_admin == False">
+            <a class="btn btn-secondary my-2 ml-1" t-if="page_name == 'timesheet'"  href="/create/timesheet">Create to hide</a>
+          </t>   -->
+        </xpath>
+    </template>
+
+    <template id="portal_timesheet">
+        <t t-call="portal.portal_layout">
+            <form action="/save/timesheet" method="post">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+
+                <t t-set="breadcrumbs_searchbar" t-value="True" />
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">Time Sheet</t>
+                </t>
+
+                <div class="row">
+                    <div class="form-group col-xl-3">
+                        <label class="col-form-label" for="project"><b>Project:</b></label>
+                    </div>
+                    <div class="form-group col-xl-6">
+                        <select id="project" name="project" class="form-control" required='True'>
+                            <t t-foreach="project_id" t-as="type">
+                                <option t-att-value="type.id" >
+                                    <span t-esc="type.name" />
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-xl-3">
+                        <label class="col-form-label" for="project_task"><b>Task:</b></label>
+                    </div>
+                    <div class="form-group col-xl-6">
+                        <select name="project_task"  class="form-control"  >
+                            <option value="">Select Task...</option>
+                            <t t-foreach="project_task or []" t-as="task_type">
+                                 <option t-att-value="task_type.id" >
+                                    <span t-esc="task_type.name" />
+                                </option>
+                            </t>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-xl-3">
+                        <label class="col-form-label" for="description"><b>Description:</b></label>
+                    </div>
+                    <div class="form-group col-xl-6">
+                        <input type="text" name="description" class="form-control" required="true"  />
+                    </div>
+                </div>
+                
+                 <div class="row">
+                    <div class="form-group col-xl-3">
+                        <label class="col-form-label" for="in_station"><b>In Station:</b></label>
+                    </div>
+                    <div class="form-group col-xl-6">
+                        <input type="text" name="in_station" class="form-control" required="true"  />
+                    </div>
+                </div>
+                  <div class="row">
+                    <div class="form-group col-xl-3">
+                        <label class="col-form-label" for="out_station"><b>Out Station:</b></label>
+                    </div>
+                    <div class="form-group col-xl-6">
+                        <input type="text" name="out_station" class="form-control" required="true"  />
+                    </div>
+                </div>
+                
+                
+                
+                
+                
+                
+                <div class="row">
+                    <div class="form-group col-xl-3">
+                        <label class="col-form-label" for="date"><b>Date:</b></label>
+                    </div>
+                    <div class="form-group col-xl-6">
+                        <input type="date" name="date" class="form-control" required="true" t-options='{"widget": "date"}' />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-xl-3">
+                        <label class="col-form-label" for="unit_amount"><b>Hours Spent:</b></label>
+                    </div>
+                    <div class="form-group col-xl-6">
+                        <input type="number" name="unit_amount" class="form-control" required="true" t-options='{"widget": "float", "precision":3}'/>
+                    </div>
+                </div>
+                <div class="row" t-if="error">
+                    <div class="col-xl-6 offset-xl-3 bg-danger text-center">
+                        <div class="py-2"><b ><t t-esc="error" /></b></div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col text-center">
+                        <button class="btn btn-primary mx-2" type="submit">Submit</button>
+                        <a class="btn btn-danger mx-2" href="/my/timesheets" >Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </t>
+    </template>
+
+
+</odoo>

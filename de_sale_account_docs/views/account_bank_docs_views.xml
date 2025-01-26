@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Bank Document -->
+        <record id="account_bank_dosc_form_view" model="ir.ui.view">
+            <field name="name">account.bank.dosc.form.view</field>
+            <field name="model">account.bank.docs</field>
+            <field name="arch" type="xml">
+                <form string="Account Bank Documents">
+                    <field name="company_id" invisible="1" />
+                    <header>
+                        <button name="action_confirm" data-hotkey="v"
+                        string="Confirm" type="object" class="btn-primary"
+                        invisible="state not in ['draft']"/>
+                                                
+                        <button name="create_invoice" data-hotkey="v"
+                        string="Create Bill" type="object" class="btn-primary" context="{'move_type': 'in_invoice'}"
+                        invisible="state not in ['confirm'] or allow_account_transaction != True"/>
+                        
+                        <button name="create_invoice" data-hotkey="v"
+                        string="Create Refund" type="object" class="btn-primary" context="{'move_type': 'in_refund'}"
+                        invisible="state not in ['expire'] or allow_account_transaction != True"/>
+
+                        
+                        <button name="action_set_to_expire" data-hotkey="v"
+                        string="Set to Expire" type="object"
+                        invisible="state not in ['issue']"/>
+                        
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,issue,expire,close" />
+                    </header>
+                    <sheet>
+                        <field name="allow_account_transaction" invisible="1" />
+                        
+                        <div name="button_box" class="oe_button_box">
+                            <button type="object"
+                                name="action_view_invoice"
+                                class="oe_stat_button"
+                                icon="fa-pencil-square-o"
+                                invisible="account_move_count == 0" groups="account.group_account_user">
+                                <field name="account_move_count" widget="statinfo" string="Journal Entries"/>
+                            </button>
+                            
+                        </div>
+                        
+                        
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group >
+                            <group>
+                                <field name="partner_id" widget="res_partner_many2one" context="{'res_partner_search_mode': 'supplier', 'show_vat': True}" placeholder="Name, TIN, Email, or Reference"/>
+                                <field name="currency_id" groups="base.group_multi_currency" force_save="1"/>                                
+                                <field name="product_id" required="1" context="{'default_can_be_bank_document': 1, 'tree_view_ref': 'de_sale_account_docs.product_product_bank_tree_view', 'form_view_ref': 'de_sale_account_docs.product_product_bank_document_form_view'}"/>
+
+                                
+                                <field name="product_uom_category_id" invisible="1"/>
+                                <field name="product_uom_id" required="1" options="{'no_open': True, 'no_create': True}" class="oe_inline" groups="uom.group_uom"/>
+                                <field name="amount" widget='monetary' options="{'currency_field': 'currency_id'}" />
+
+
+                            </group>
+                            <group>
+                                <field name="journal_id" required="1" options="{'no_open': True, 'no_create': True}" />
+                                <field name="date" />
+                                <field name="bank_ref" />
+                            </group>                            
+                        </group>
+                        
+                        <notebook>
+                            <page string="Description">
+                                <field name="note" />
+                            </page>
+                            <page string="Other Information" name="purchase_delivery_invoice">
+                                <group>
+                                    <group name="other_info">
+                                        <field name="lead_id" help="Log in the chatter from which opportunity the order originates" groups="base.group_no_one"/>
+
+                                        <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                    </group>
+                                    <group string="Issue">
+                                        <field name="date_effective" force_save="1" />
+                                        <field name="date_issue" />                                        
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                    </group>
+                                    <group string="Expiry">
+                                        <field name="date_schedule_expire" />
+                                        <field name="date_expire" />
+                                    </group>
+                                </group>
+                            </page>
+                            
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        
+        <record id="account_bank_dosc_tree_view" model="ir.ui.view">
+            <field name="name">account.bank.docs.tree.view</field>
+            <field name="model">account.bank.docs</field>
+            <field name="arch" type="xml">
+                <list string="Bank Documents" decoration-muted="state in ('cancel','close')" decoration-danger="state in ('expire')" decoration-warning="state in ('issue','confirm')" >
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="partner_id"/>
+                    <field name="bank_ref" optional="hide" />
+                    <field name="user_id" widget="many2one_avatar_user" optional="show"/>
+                    <field name="product_id"/>
+                    <field name="amount"/>
+                    <field name="date_effective" optional="hide" />
+                    <field name="date_expire" optional="hide" />
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="view_financial_bank_docs_filter" model="ir.ui.view">
+            <field name="name">view.financial.bank.docs.filter</field>
+            <field name="model">account.bank.docs</field>
+            <field name="priority" eval="15"/>
+            <field name="arch" type="xml">
+                <search string="Search Bank Documents">
+                    <field name="name" string="Order" filter_domain="['|', '|', ('name', 'ilike', self), ('bank_ref', 'ilike', self), ('partner_id', 'child_of', self)]"/>
+                    <field name="partner_id" operator="child_of"/>
+                    <field name="user_id"/>
+                    <field name="product_id" string="Product" filter_domain="[('product_id', 'ilike', self)]"/>
+                    
+                    <filter string="My Documents" domain="[('user_id', '=', uid)]" name="my_bank_docs_filter"/>
+                    <separator/>
+                    <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                    <filter string="Issued" name="issue_documents" domain="[('state','=','issue')]"/>
+                    <filter string="Expired" name="draft" domain="[('state','=','expire')]"/>
+                    <filter string="Completed" name="close" domain="[('state','=','close')]"/>
+                    
+                    <filter invisible="1" string="Late Activities" name="activities_overdue"
+                        domain="[('my_activity_date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                        help="Show all records which has next action date is before today"/>
+                    <filter invisible="1" string="Today Activities" name="activities_today"
+                        domain="[('my_activity_date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <filter invisible="1" string="Future Activities" name="activities_upcoming_all"
+                        domain="[('my_activity_date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="partner" string="Partner" domain="[]" context="{'group_by': 'partner_id'}"/>
+                        <filter name="state" string="Status" domain="[]" context="{'group_by': 'state'}"/>
+                        
+                        <filter string="Issue On" name="Issuance_month" domain="[]" context="{'group_by': 'date_issue'}"/>
+                        <filter string="Expiry Date" name="expire_month" domain="[]" context="{'group_by': 'date_expire'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <record id="action_account_bank_docs" model="ir.actions.act_window">
+            <field name="name">Bank Documents</field>
+            <field name="res_model">account.bank.docs</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="view_financial_bank_docs_filter"/>
+            <field name="view_id" ref="account_bank_dosc_tree_view"/>
+        </record>
+        
+         <menuitem id="menu_finance_bank_docs" name="Banks"
+                  parent="account.menu_finance" sequence="4"/>
+
+        <menuitem action="action_account_bank_docs" id="account_bank_docs_menu"
+                  parent="menu_finance_bank_docs" sequence="1"/>
+            
+        
+
+       
+    </data>
+</odoo>
+            
+            

@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_purchase_order_type_manager,access.purchase.order.type.manager,model_purchase_order_type,purchase.group_purchase_manager,1,1,1,1
+access_purchase_order_type,access.purchase.order.type,model_purchase_order_type,,1,1,1,1
+
+access_purchase_task_template_manager,access.purchase.task.templatee.manager,model_purchase_task_template,purchase.group_purchase_manager,1,1,1,1
+access_purchase_task_template_user,access.purchase.task.template.user,model_purchase_task_template,purchase.group_purchase_user,1,0,0,0
+access_purchase_task_template_docs_manager,access.purchase.task.templatee.docs.manager,model_purchase_task_template_docs,purchase.group_purchase_manager,1,1,1,1
+access_purchase_task_template_docs_user,access.purchase.task.template.docs.user,model_purchase_task_template_docs,purchase.group_purchase_user,1,0,0,0
+access_purchase_task_docs_user,access.purchase.task.docs.user,model_project_task_documents,purchase.group_purchase_user,1,1,1,1
+access_purchase_task_docs_manager,access.purchase.task.docs.manager,model_project_task_documents,purchase.group_purchase_manager,1,1,1,1
+access_purchase_task_workflow_line_user,access.purchase.task.workflow.line,model_purchase_task_workflow_line,purchase.group_purchase_user,1,1,1,1

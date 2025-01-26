@@ -1,0 +1,418 @@
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="action_project_purchase_requisition_list">
+            <field name="name">Purchase Requisitions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.requisition</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('project_id','=',active_id)]</field>
+            <field name="context">{
+                "default_project_id":active_id,
+                "default_user_id": False,
+                }
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_project_purchase_list">
+            <field name="name">Purchase Order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('project_id','=',active_id)]</field>
+            <field name="context">{
+                "default_project_id":active_id,
+                "default_user_id": False,
+                }
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_project_cost_sheet_list">
+            <field name="name">Cost Sheet</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">project.cost.sheet</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('project_id','=',active_id)]</field>
+            <field name="context">{
+                "default_project_id":active_id,
+                "default_user_id": False,
+                }
+            </field>
+        </record>
+        
+        
+        <record model="ir.actions.act_window" id="action_site_picking_list">
+            <field name="name">Pickings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.picking</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[('project_id','=',active_id)]</field>
+            <field name="context">{
+                "default_project_id":active_id,
+                "default_user_id": False,
+                }
+            </field>
+        </record>
+        
+        
+        <record id="project_project_view_form_simplified_inherit_project_planning" model="ir.ui.view">
+            <field name="name">project.project.view.form.simplified.inherit.project.planning</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
+            <field name="priority">24</field>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="allow_site_planning"/>
+                </field>
+            </field>
+        </record>
+        
+        <record id="act_project_project_2_project_job_order_all" model="ir.actions.act_window">
+            <field name="name">Job Order</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'list', 'view_id': ref('project.view_task_tree2')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('project.view_task_form2')})]"/>
+            <field name="domain">[('project_id', '=', active_id),('is_job_order', '=', '1')]</field>
+            <field name="context">{
+                'default_is_job_order': 1,
+                'default_project_id': active_id,
+            }</field>
+            <field name="search_view_id" ref="project.view_task_search_form"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No Jobs found. Let's create one!
+                </p><p>
+                    To get things done, use activities and status on Job order.<br/>
+                    Chat in real time or by email to collaborate efficiently.
+                </p>
+            </field>
+        </record>
+        
+        
+        <record id="edit_project_inherit" model="ir.ui.view">
+            <field name="name">edit.project.inherit</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button" type="action"
+                            invisible="allow_site_planning == False" name="%(act_project_project_2_project_job_order_all)d" icon="fa-gear">
+                        <field string="Job Orders" name="job_count" widget="statinfo" options="{'label_field': 'Job orders'}"/>
+                    </button>
+
+                    
+                    
+                </xpath>
+                
+                <xpath expr="//div[@id='rating_settings']/.." position="before">
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-lg-6 o_setting_box"  id="timesheet_settings">
+                            <div class="o_setting_left_pane">
+                                <field name="allow_site_planning"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="allow_site_planning" string="Project Planning"/>
+                                <div class="text-muted">
+                                    Material planning for site or project
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+                <xpath expr="//notebook/page[@name='description_page']" position="after">
+                    <page string="Site Details" id="site_detail_tab"
+                          invisible="allow_site_planning == False">
+                        <group>
+                            <group>
+                                <field name='site_type_id'
+                                       required="allow_site_planning == True" options="{'no_create':'1', 'no_open':'1'}"/>
+                                <field name='address_id'
+                                       required="allow_site_planning == True"/>
+                            </group>
+                            <group>
+                                <field name="picking_type_id" options="{'no_create': True}" required="1"/>
+                                <field name="location_id" options="{'no_create': True}" required="1"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Project Site View -->
+        <record id="project_site_form_view" model="ir.ui.view">
+        <field name="name">project.site.form.view</field>
+        <field name="model">project.project</field>
+        <field name="arch" type="xml">
+            <form string="Site" delete="0">
+                <header>
+                    <button name="%(portal.portal_share_action)d" string="Share" type="action" class="oe_highlight oe_read_only"/>
+                    
+
+                </header>
+                <sheet string="Site">
+                    <div class="oe_button_box" name="button_box" groups="base.group_user">
+                        
+                        <button class="oe_stat_button" name="action_view_sales" type="object" icon="fa-signal" groups="sales_team.group_sale_salesman" help="Sold in the last 365 days" >
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="sales_count" widget="statinfo" nolabel="1" class="mr4"/>
+                            </span>
+                            <span class="o_stat_text">Sale Order</span>
+                        </div>
+                    </button>
+                    
+                    <button class="oe_stat_button" name="action_view_invoices" type="object" icon="fa-signal" groups="sales_team.group_sale_salesman">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="invoice_amount" widget="statinfo" nolabel="1" class="mr4"/>
+                            </span>
+                            <span class="o_stat_text">Invoices</span>
+                        </div>
+                    </button>   
+                    
+                    
+                      <button class="oe_stat_button" name="action_view_delivery_order" type="object" icon="fa-signal" groups="sales_team.group_sale_salesman">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="do_count" widget="statinfo" nolabel="1" class="mr4"/>
+                            </span>
+                            <span class="o_stat_text">Delivery</span>
+                        </div>
+                    </button>
+                    
+                    
+                        <button name="%(action_project_purchase_list)d" type="action" class="oe_stat_button" icon="fa-list-alt"
+                                invisible="purchase_count == 0">
+                            <field name="purchase_count" widget="statinfo" string="Purchase Orders"/>
+                        </button>
+                    
+                     <button class="oe_stat_button" name="action_view_vendor_bill" type="object" icon="fa-signal" groups="sales_team.group_sale_salesman">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="bill_count" widget="statinfo" nolabel="1" class="mr4"/>
+                            </span>
+                            <span class="o_stat_text">Vendor Bill</span>
+                        </div>
+                    </button>
+                      
+                     <button class="oe_stat_button" type="action" name="517" icon="fa-tasks">
+                            <field string="Tasks In Progress" name="task_count" widget="statinfo" options="{'label_field': 'label_tasks'}"/>
+                        </button>
+                    
+                    
+                        <button class="oe_stat_button" name="action_view_sales" type="object" icon="fa-signal" groups="sales_team.group_sale_salesman">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="sales_amount" widget="statinfo" nolabel="1" class="mr4"/>
+                            </span>
+                            <span class="o_stat_text">Sales Price</span>
+                        </div>
+                    </button>
+                        
+                       
+
+                        <button class="oe_stat_button" type="action"
+                                invisible="allow_site_planning == False" name="%(action_project_cost_sheet_list)d" icon="fa-dollar">
+                            <field string="Cost Sheets" name="cost_sheet_count" widget="statinfo" options="{'label_field': 'Cost Sheet'}"/>
+                        </button>
+                        <button class="oe_stat_button" type="action" invisible="allow_site_planning == False" name="%(act_project_project_2_project_job_order_all)d" icon="fa-gear">
+                            <field string="Job Orders" name="job_count" widget="statinfo" options="{'label_field': 'Job orders'}"/>
+                        </button>
+
+
+                       
+                        <button name="%(action_project_purchase_requisition_list)d" type="action" class="oe_stat_button" icon="fa-list-alt"
+                                invisible="requisition_count == 0">
+                            <field name="requisition_count" widget="statinfo" string="Requisitions"/>
+                        </button>
+                       
+                        
+                        <button name="%(action_site_picking_list)d" type="action" class="oe_stat_button" icon="fa-truck"
+                                invisible="picking_count == 0">
+                            <field name="picking_count" widget="statinfo" string="Pickings"/>
+                        </button>
+                        <button type="object"
+                        name="action_view_move_lines"
+                        class="oe_stat_button"
+                        icon="fa-truck"
+                        invisible="move_line_count == 0" >
+                        <field name="move_line_count" widget="statinfo" string="Product Moves"/>
+                    </button>
+                        
+                                              
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                            invisible="active == True"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Project Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id" string="Partner" widget="res_partner_many2one"/>
+
+
+                            <field name='address_id' required="allow_site_planning == True"/>
+                        </group>
+                        <group>
+                            <field name="analytic_account_id" domain="['|', ('company_id', '=', company_id), ('company_id', '=', False)]" context="{'default_partner_id': partner_id}" groups="analytic.group_analytic_accounting"/>
+                            <field name="currency_id" options="{'no_create': True}"/>
+                        </group>
+                        
+                    </group>
+                    <notebook>
+                        <page name="description_page" string="Description">
+                            <field name="description" nolabel="1" placeholder="Describe your project..." type="html"/>
+                        </page>
+                        
+                        <page string="Site Details" id="site_detail_tab" invisible="allow_site_planning == False)]}">
+                        <group>
+                            <group>
+                                <field name='site_type_id' required="allow_site_planning == True" options="{'no_create':'1', 'no_open':'1'}"/>
+                                <field name="picking_type_id" options="{'no_create': True}" required="1"/>
+                                <field name="location_id" options="{'no_create': True}" required="1"/>
+                            </group>
+                            <group>
+                                
+                            </group>
+                        </group>
+                    </page>
+                
+                        <page name="site_settings" string="Settings">
+                            <group>
+                                <group>
+                                    <field name="active" invisible="1"/>
+                                    <field name="user_id" string="Responsible" widget="many2one_avatar_user"
+                                           readonly="active == False" domain="[('share', '=', False)]"/>
+                                    
+                                </group>
+                                <group>
+                                    <field name="privacy_visibility" widget="radio"/>
+                                    <field name="allowed_internal_user_ids" widget="many2many_tags"
+                                           invisible="privacy_visibility != 'followers'"/>
+                                    <field name="allowed_portal_user_ids" widget="many2many_tags" options="{'no_create': True}"
+                                           invisible="privacy_visibility  != 'portal'"/>
+
+                                    <field name="company_id" groups="base.group_multi_company"/>
+                                </group>
+                                <group name="extra_settings">
+                                </group>
+                            </group>
+                            <group>
+                            <group string="Site Info">
+                                <field name='site_type_id' required="allow_site_planning == True" options="{'no_create':'1', 'no_open':'1'}"/>
+                            </group>
+                            <group>
+                               <field name="allow_site_planning" string="Is a Site"/>
+                            </group>
+                        </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="message_ids"/>
+                </div>
+                </form>
+            </field>
+        </record>
+        
+          <!--    Action For Sub Menu Project -->
+        <record id="open_view_project_planning_all" model="ir.actions.act_window">
+            <field name="name">Projects</field>
+            <field name="res_model">project.project</field>
+            <field name="domain">[('allow_site_planning','=', True)]</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'list', 'view_id': ref('project.view_project')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('project_site_form_view')})]"/>
+            <field name="search_view_id" ref="project.view_project_project_filter"/>          
+            <field name="context">{'default_allow_site_planning': '1'}</field>
+            <field name="target">main</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No Site found. Let's create one!
+                </p>
+            </field>
+        </record>
+        
+        <menuitem name="Project" id="project_planning_project_menu" parent="project_planning_ops_main_menu" action="open_view_project_planning_all" sequence="10" />
+        
+        <!-- Configuration Menu -->
+        <menuitem id="project_planning_config_settings_menu_action" name="Settings" parent="project_planning_configuration_main_menu"
+            sequence="0" action="project.project_config_settings_action" groups="base.group_system"/>
+        <menuitem action="project.open_task_type_form" id="menu_project_planning_config_task_type" name="Stages" parent="project_planning_configuration_main_menu" sequence="10" groups="base.group_no_one"/>
+        <menuitem action="project.project_tags_action" id="menu_project_planning_config_tags" parent="project_planning_configuration_main_menu" sequence="20"/>
+        <menuitem name="Site" id="project_planning_configuration_site_menu" parent="project_planning_configuration_main_menu" sequence="30" />
+        
+        <!-- Site Type -->
+        <record model="ir.ui.view" id="project_site_type_form_view">
+            <field name="name">Site Types</field>
+            <field name="model">project.site.type</field>
+            <field name="arch" type="xml">
+                <form string="Site Types">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="project_site_types_tree_view">
+            <field name="name">Site Types</field>
+            <field name="model">project.site.type</field>
+            <field name="arch" type="xml">
+                <list string="Site Types" editable="bottom" sample="1">
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="project_site_types_action" model="ir.actions.act_window">
+            <field name="name">Site Types</field>
+            <field name="res_model">project.site.type</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No site type found. Let's create one!
+              </p>
+              
+            </field>
+        </record>
+
+        <menuitem name="Site Types" id="project_planning_configuration_site_type_menu" parent="project_planning_configuration_site_menu" action="project_site_types_action" sequence="10" />
+        
+        <!-- Job Type -->
+      <record model="ir.ui.view" id="project_job_type_list_view">
+            <field name="name">project.job.type.list.view</field>
+            <field name="model">project.job.type</field>
+            <field name="arch" type="xml">
+                <list string="Job Types" editable="bottom" sample="1">
+                    <field name="name"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="action_project_job_type" model="ir.actions.act_window">
+            <field name="name">Job Types</field>
+            <field name="res_model">project.job.type</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No job type found. Let's create one!
+              </p>
+              
+            </field>
+        </record>
+      
+    <menuitem name="Job Types" id="project_planning_configuration_job_type_menu" parent="project_planning_configuration_site_menu" action="action_project_job_type" sequence="20" />
+
+    
+    
+        
+
+    </data>
+</odoo>

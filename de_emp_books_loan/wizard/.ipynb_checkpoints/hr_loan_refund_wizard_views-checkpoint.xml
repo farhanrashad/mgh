@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_employee_loan_refund_wizard_view_form" model="ir.ui.view">
+        <field name="name">hr.employee.loan.refund.wizard.form</field>
+        <field name="model">hr.employee.loan.refund.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Loan refund">
+                <!-- <separator string="Reason to refuse Advance Request"/> -->
+                <group>
+                    <group>
+                        <field name="employee_loan_id" invisible="1" />
+                        <field name="refund_type" widget="radio" options="{'horizontal': True}" />
+                        <field name="journal_id" options="{'no_create':True}"
+                               invisible="refund_type != 'refund'"
+                               required="refund_type == 'refund'" />
+                    </group>
+                    <group>
+                        <label for="amount"/>
+                        <div name="amount_div" class="o_row">
+                            <field name="amount"/>
+                            <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency"/>
+                        </div>
+                        
+                        <field name="date_refund" />
+                        <field name="communication" />
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                    <group name="group3" invisible="refund_type != 'writeoff'" >
+                        <label for="writeoff_account_id"/>
+                            <div>
+                                <div invisible="refund_type != 'writeoff'">
+                                    <label for="writeoff_account_id" string="Post Difference In" class="oe_edit_only"/>
+                                    <field name="writeoff_account_id" string="Post Difference In" options="{'no_create': True}"
+                                           required="refund_type == 'writeoff'"/>
+                                    <label for="writeoff_label" class="oe_edit_only" string="Label"/>
+                                    <field name="writeoff_label" required="refund_type == 'writeoff'"/>
+                                </div>
+                            </div>
+                    </group>
+                </group>
+                <div class="o_row">
+                    <field name="reason" class="" placeholder="Reason to refund amount"/>
+                </div>
+                <footer>
+                    <button name="create_refund" id="create_refund" string="Create Refund Invoice" type="object"
+                            context="{'refund_invoice': True}" class="btn-primary" data-hotkey="q"
+                            invisible="refund_type != 'refund'"/>
+                    <button name="create_refund" id="create_writeoff_entry" string="Write-off" class="btn-primary" type="object" data-hotkey="w"
+                            invisible="refund_type != 'writeoff'"/>
+                    
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+           </form>
+        </field>
+    </record>
+
+    <record id="hr_employee_loan_refund_wizard_action" model="ir.actions.act_window">
+        <field name="name">Loan Refund</field>
+        <field name="res_model">hr.employee.loan.refund.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="hr_employee_loan_refund_wizard_view_form"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

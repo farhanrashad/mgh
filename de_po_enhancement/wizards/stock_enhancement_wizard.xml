@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_stock_enhancement" model="ir.ui.view">
+            <field name="name">stock.enhancement</field>
+            <field name="model">stock.enhancement</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name" invisible="1"/>
+                        <field name="products_sp" invisible="1"/>
+                        <field name="demand_sp" invisible="1"/>
+                        <field name="quantity_sp" invisible="1"/>
+                        <field name="ps_line_id" invisible="1"/>
+                        <field name="ps_line_ref" invisible="1"/>
+                    </group>
+
+
+                    <notebook>
+                        <page string="Sale Order">
+                            <field name="stock_pick" widget="one2many_list">
+                                <list editable="bottom">
+                                    <field name='sale_order_sp'/>
+                                    <field name="text"/>
+                                    <field name='quantity'/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_sp_enhancement" model="ir.actions.act_window">
+            <field name="name">Detailed Information</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.enhancement</field>
+            <field name="view_id" ref="view_stock_enhancement"/>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

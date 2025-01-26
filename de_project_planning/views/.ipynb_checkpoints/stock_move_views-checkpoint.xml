@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- inherit Stock Move form view -->
+        <record id="view_move_form_inherit" model="ir.ui.view">
+            <field name="name">view.move.form.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="project_id" />
+                    <field name="task_id" />
+                </xpath>
+                
+            </field>
+        </record>
+        
+        <record id="view_move_line_form_inherit" model="ir.ui.view">
+            <field name="name">view.move.line.form.inherit</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_move_line_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="project_id" />
+                    <field name="task_id" />
+                </xpath>
+                
+            </field>
+        </record>
+        
+        
+    </data>
+</odoo>

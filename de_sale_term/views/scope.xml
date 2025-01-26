@@ -23,9 +23,9 @@
         <field name="name">scope.work.tree</field>
         <field name="model">scope.work</field>
         <field name="arch" type="xml">
-            <tree string="Scope of Work Tree">
+            <list string="Scope of Work Tree">
                 <field name="name"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -34,7 +34,7 @@
         <field name="name">Scope of Work</field>
         <field name="res_model">scope.work</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="view_id" ref="view_scope_work_tree"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

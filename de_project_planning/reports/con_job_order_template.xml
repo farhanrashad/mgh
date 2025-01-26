@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_con_job_order_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <div class="row justify-content-end">
+                            <div class="col-12">
+                                <h1>Project Initiation()</h1>
+                                <table class="table table-bordered" style="table-layout: fixed">
+                                    <thead>
+                                        <tr>
+                                            <th>Project</th>
+                                            <th>Customer</th>
+                                            <th>Assign To</th>
+                                            <th>Assigning Date</th>
+                                            <th>Deadline</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <p t-field="o.project_id"/>
+                                            </td>
+                                            <td>
+                                                <p t-field="o.customer_name"/>
+                                            </td>
+                                            <td>
+                                                <p t-field="o.assign_to"/>
+                                            </td>
+                                            <td>
+                                                <p t-field="o.starting_date"/>
+                                            </td>
+                                            <td>
+                                                <p t-field="o.deadline"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <h2>Timesheet</h2>
+                                <table class="table table-bordered" style="table-layout: fixed">
+
+                                    <thead>
+                                        <tr>
+                                            <th name="th_product" class="text-left">Date</th>
+                                            <th name="th_description" class="text-left">User</th>
+                                            <th name="th_quantity" class="text-left">Description</th>
+                                            <th name="th_measure" class="text-left">Analytic Account</th>
+                                            <th name="th_priceunit" class="text-left">Duration</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <t t-set="current_subtotal" t-value="0"/>
+
+                                        <t t-foreach="o.time_sheet_line" t-as="line">
+
+
+                                            <tr t-att-class="'o_line_section'">
+                                                <td name="td_date" class="text-center">
+                                                    <span t-field="line.date_time_sheet"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.employee_id"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.name"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.analytic_account_id"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.time_period"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+
+                                <h2>Subtasks</h2>
+                                <table class="table table-bordered" style="table-layout: fixed">
+
+                                    <thead>
+                                        <tr>
+                                            <th name="th_product" class="text-left">Task Title</th>
+                                            <th name="th_description" class="text-left">Project</th>
+                                            <th name="th_quantity" class="text-left">Assgined To</th>
+                                            <th name="th_measure" class="text-left">Intially Planned Hours</th>
+                                            <th name="th_priceunit" class="text-left">Remaining Hours</th>
+                                            <th name="th_priceunit" class="text-left">Stage</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <t t-set="current_subtotal" t-value="0"/>
+
+                                        <t t-foreach="o.sub_task_line" t-as="line">
+
+
+                                            <tr t-att-class="'o_line_section'">
+                                                <td name="td_date" class="text-center">
+                                                    <span t-field="line.title"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.project_sub_task"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.assign_to"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.planned_hours"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.remaining_hours"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.stage_sub_task"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+
+
+                                <h2>Material Plannings</h2>
+                                <table class="table table-bordered" style="table-layout: fixed">
+
+                                    <thead>
+                                        <tr>
+                                            <th name="th_product" class="text-left">Task Title</th>
+                                            <th name="th_description" class="text-left">Description</th>
+                                            <th name="th_quantity" class="text-left">Quantity</th>
+                                            <th name="th_measure" class="text-left">Unit of Measure</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <t t-set="current_subtotal" t-value="0"/>
+
+                                        <t t-foreach="o.material_planning_line" t-as="line">
+
+
+                                            <tr t-att-class="'o_line_section'">
+                                                <td name="td_date" class="text-center">
+                                                    <span t-field="line.product_id"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.name"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.product_uom_quantity"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.product_uom"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+
+                                <h2>Consumed Materials</h2>
+                                <table class="table table-bordered" style="table-layout: fixed">
+
+                                    <thead>
+                                        <tr>
+                                            <th name="th_product" class="text-left">Task Title</th>
+                                            <th name="th_description" class="text-left">Description</th>
+                                            <th name="th_quantity" class="text-left">Quantity</th>
+                                            <th name="th_measure" class="text-left">Unit of Measure</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <t t-set="current_subtotal" t-value="0"/>
+
+                                        <t t-foreach="o.material_planning_line" t-as="line">
+
+
+                                            <tr t-att-class="'o_line_section'">
+                                                <td name="td_date" class="text-center">
+                                                    <span t-field="line.product_id"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.name"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.product_uom_quantity"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.product_uom"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+
+                                <h2>Materials Requisition</h2>
+                                <table class="table table-bordered" style="table-layout: fixed">
+
+                                    <thead>
+                                        <tr>
+                                            <th name="th_number" class="text-left">Number</th>
+                                            <th name="th_employee" class="text-left">Employee</th>
+                                            <th name="th_department" class="text-left">Department</th>
+                                            <th name="th_req_date" class="text-left">Requisition Date</th>
+                                            <th name="th_req_deadline" class="text-left">Requisition Deadline</th>
+                                            <th name="th_company" class="text-left">Company</th>
+                                            <th name="th_status" class="text-left">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <t t-set="current_subtotal" t-value="0"/>
+
+                                        <t t-foreach="o.material_requisition_line" t-as="line">
+
+
+                                            <tr t-att-class="'o_line_section'">
+                                                <td name="td_date" class="text-center">
+                                                    <span t-field="line.name"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.partner_id"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.department_id"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.requisition_date"/>
+                                                </td>
+                                                <td name="td_date" class="text-center">
+                                                    <span t-field="line.req_deadline"/>
+                                                </td>
+                                                <td name="td_date" class="text-center">
+                                                    <span t-field="line.company_id"/>
+                                                </td>
+                                                <td name="td_date" class="text-center">
+                                                    <span t-field="line.state"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+
+                                 <h2>Stock</h2>
+                                <table class="table table-bordered" style="table-layout: fixed">
+
+                                    <thead>
+                                        <tr>
+                                            <th name="th_product" class="text-left">Expacted Date</th>
+                                            <th name="th_description" class="text-left">Date</th>
+                                            <th name="th_description" class="text-left">Source Document</th>
+                                            <th name="th_description" class="text-left">Product</th>
+                                            <th name="th_quantity" class="text-left">Quantity</th>
+                                            <th name="th_measure" class="text-left">Unit of Measure</th>
+                                            <th name="th_measure" class="text-left">Status</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <t t-set="current_subtotal" t-value="0"/>
+
+                                        <t t-foreach="o.stock_move_line" t-as="line">
+
+
+                                            <tr t-att-class="'o_line_section'">
+                                                <td name="td_date" class="text-center">
+                                                    <span t-field="line.expected_date"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.creation_date"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.source_document"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.product_ids"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.initial_demand"/>
+                                                </td>
+                                                <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.product_uom"/>
+                                                </td>
+                                                 <td name="td_quantity" class="text-center">
+                                                    <span t-field="line.state_check"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                                <h3>Signature:______________</h3>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+<!--     <template id="con_job_order_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="de_project_planning.report_con_job_order_template"/>
+            </t>
+        </t>
+    </template> -->
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="view_hr_job_form_inherit_advance_limit" model="ir.ui.view">
+            <field name="name">view.hr.job.form.inherit.advance.limit</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_hr_job_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook[1]" position="inside">
+                    <page string="Salary Advance">
+                        <group>
+                            <group name="advance_limit" string="Advance Limit">
+                                <field name="advance_limit_method" class="oe_inline" widget="radio" />
+                                <label for="amount"
+                                       invisible="dvance_limit_method not in ('fixed','percentage')"/>
+                                <div invisible="advance_limit_method not in ('fixed','percentage')" id="advance_method_details">
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="fixed_amount"
+                                           required="advance_limit_method =='fixed'"
+                                    invisible="advance_limit_method != 'fixed'" class="oe_inline"/>
+                                    <field name="amount"
+                                           required="advance_limit_method == 'percentage')"
+                                    invisible="advance_limit_method != 'percentage'" class="oe_inline"/>
+                                    <span invisible="advance_limit_method != 'percentage'" class="oe_inline">%</span>
+                                </div>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                 
+            </field>
+        </record>
+
+       
+</odoo>

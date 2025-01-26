@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record id="view_shipping_form" model="ir.ui.view">
+        <field name="name">shipping.term.form</field>
+        <field name="model">shipping.term</field>
+        <field name="arch" type="xml">
+            <form string="Shipping Terms">
+                <sheet>
+                    <group>
+                        <field name="name" placeholder="e.g 'Shipping Term'"/>
+                    </group>
+                    <group>
+                        <field name='description'/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_shipping_tree" model="ir.ui.view">
+        <field name="name">shipping_term.tree</field>
+        <field name="model">shipping.term</field>
+        <field name="arch" type="xml">
+            <list string="Shipping Terms Tree">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+
+    <!-- <record id="action_shipping_term_view" model="ir.actions.act_window">
+        <field name="name">Shipping Terms</field>
+        <field name="res_model">shipping.term</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_shipping_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create ""Shipping Terms"" Here.......
+            </p>
+        </field>
+    </record>
+  
+   <menuitem id="menu_shipping_term"
+              name="Shipping Terms"
+              parent="sale.menu_sale_config"
+              action="de_shipping_payment_terms.action_shipping_term_view"
+              sequence="12"/> -->
+  
+  
+    <record id="view_payment_form" model="ir.ui.view">
+        <field name="name">payment.term.form</field>
+        <field name="model">payment.terms</field>
+        <field name="arch" type="xml">
+            <form string="Payment Terms">
+                <sheet>
+                    <group>
+                        <field name="name" placeholder="e.g 'Payment Term'"/>
+                    </group>
+                    <group>
+                        <field name='description'/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="view_payment_tree" model="ir.ui.view">
+        <field name="name">payment_term.tree</field>
+        <field name="model">payment.terms</field>
+        <field name="arch" type="xml">
+            <list string="Payment Terms Tree">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+
+    <record id="action_payment_term_view" model="ir.actions.act_window">
+        <field name="name">Payment Terms</field>
+        <field name="res_model">payment.terms</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_payment_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create ""Payment Terms"" Here.......
+            </p>
+        </field>
+    </record>
+  
+   <menuitem id="menu_payment_term"
+              name="Payment Terms"
+              parent="sale.menu_sale_config"
+              action="de_shipping_payment_terms.action_payment_term_view"
+              sequence="13"/>
+  
+  
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="de_shipping_payment_terms.list">
+      <field name="name">de_shipping_payment_terms list</field>
+      <field name="model">de_shipping_payment_terms.de_shipping_payment_terms</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </list>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="de_shipping_payment_terms.action_window">
+      <field name="name">de_shipping_payment_terms window</field>
+      <field name="res_model">de_shipping_payment_terms.de_shipping_payment_terms</field>
+      <field name="view_mode">list,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="de_shipping_payment_terms.action_server">
+      <field name="name">de_shipping_payment_terms server</field>
+      <field name="model_id" ref="model_de_shipping_payment_terms_de_shipping_payment_terms"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "list,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="de_shipping_payment_terms" id="de_shipping_payment_terms.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="de_shipping_payment_terms.menu_1" parent="de_shipping_payment_terms.menu_root"/>
+    <menuitem name="Menu 2" id="de_shipping_payment_terms.menu_2" parent="de_shipping_payment_terms.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="de_shipping_payment_terms.menu_1_list" parent="de_shipping_payment_terms.menu_1"
+              action="de_shipping_payment_terms.action_window"/>
+    <menuitem name="Server to list" id="de_shipping_payment_terms" parent="de_shipping_payment_terms.menu_2"
+              action="de_shipping_payment_terms.action_server"/>
+-->
+  </data>
+</odoo>

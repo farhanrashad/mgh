@@ -1,0 +1,20 @@
+<odoo>
+  <data>
+    <record id="view_order_form_inherit_sale_fin_documents" model="ir.ui.view">
+            <field name="name">sale.order.form.sale.fin.documents</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_view_invoice']" position="before">
+                    <button type="object"
+                        name="action_view_documents"
+                        class="oe_stat_button"
+                        icon="fa-pencil-square-o"
+                        invisible="bank_doc_count == 0" >
+                        <field name="bank_doc_count" widget="statinfo" string="Financial docs"/>
+                    </button>
+                </xpath>
+        </field>
+    </record>
+  </data>
+</odoo>

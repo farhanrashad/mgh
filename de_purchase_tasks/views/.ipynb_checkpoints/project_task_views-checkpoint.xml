@@ -1,0 +1,152 @@
+<odoo>
+    <data>
+        <!-- Milestone Task Type - Stages -->
+        <record id="task_type_edit_inherit_milestone" model="ir.ui.view">
+            <field name="name">task.type.edit.inherit.milestone</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_edit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[1]/group[2]" position="inside">
+                    <field name="allow_milestone" />
+                    <field name="submission_type" widget="radio"
+                           invisible="allow_milestone == False"/>
+                </xpath>
+                <xpath expr="//field[@name='project_ids']" position="replace" >
+                    <field name="project_ids" widget="many2many_tags" options="{'color_field': 'color'}" groups="base.group_no_one"
+                           invisible="allow_milestone == True"/>
+                </xpath>
+
+                <xpath expr="//sheet" position="inside">
+                    <notebook>
+                        <page string="projects" id="projects" groups="base.group_erp_manager"
+                              invisible="allow_milestone == False">
+                            <field name="project_ids" invisible="allow_milestone == False" />
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+        <record id="project_task_type_tree_inherit_milestone" model="ir.ui.view">
+            <field name="name">project.task.type.tree.inherit.milestone</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//list[1]" position="inside">
+                    <field name="allow_milestone" invisible="1"/>
+                    <field name="submission_type" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='project_ids']" position="attributes">
+                    <attribute name="optional">hide</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Milestone Tasks -->
+        <record id="project_task_view_search_inherit_purchase_tasks" model="ir.ui.view">
+            <field name="name">project.task.search.inherit.purchase_tasks</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='my_tasks']" position="before">
+                    <filter string="Open Milestones" name="open_milesones" domain="[('stage_id.fold', '!=', True)]"/>
+                    <separator/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="project_task_form_inherit" model="ir.ui.view">
+            <field name="name">project.task.form.view.inherit</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="purchase_id" invisible="purchase_id == False"/>
+                    <field name="purchase_project_id" invisible="purchase_id == False"/>
+                    <field name="completion_days" />
+                    <field name="approval_days" />
+                    <field name="completion_percent" />
+                    <field name="delivery_assigned" readonly="1"/>
+                    <field name="task_sequence" string="Sequence" readonly="1"/>
+                    <field name="purchase_task_stage_ids" widget="many2many_tags" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='date_deadline']" position="after">
+                    <field name="date_to_approve"  widget="remaining_days" />
+                </xpath>
+                
+                <xpath expr="//page[@name='extra_info']" position="after">
+                    <page string="Documents" name="task_documents" invisible="purchase_id == False"/>
+                        <field name="task_doc_ids" widget="one2many_list" >
+                            <list string="Task Documents" editable="bottom">
+                                <field name="name" readonly="1"/>
+                                <field filename="task_attachment_filename" name="task_attachment" required="1" />
+
+                            </list>
+                        </field>
+                    </page>
+                </xpath>
+                
+                
+            </field>
+        </record>
+        
+        <record id="view_task_milestone_tree" model="ir.ui.view">
+            <field name="name">project.task.tree</field>
+            <field name="model">project.task</field>
+            <field eval="2" name="priority"/>
+            <field name="arch" type="xml">
+                <list string="Milestones" multi_edit="1" sample="1">
+                    <field name="message_needaction" invisible="1" readonly="1"/>
+                    <field name="sequence" invisible="1" readonly="1"/>
+                    <field name="name"/>
+                    <field name="project_id" optional="hide" readonly="1"/>
+                    <field name="purchase_id" optional="show" readonly="1"/>
+                    <field name="purchase_project_id" optional="show" readonly="1"/>
+                    <field name="partner_id" optional="show" string="Partner"/>
+                    <field name="completion_percent" optional="show" />
+                    <field name="date_estimated" optional="show" />
+                    <field name="date_to_approve"  widget="remaining_days" />
+                    <field name="days_to_approve" optional="show" />
+                    <field name="days_to_close" optional="show" />
+                    <field name="date_doc_submission" optional="show" />
+                    <field name="date_inv_submission" optional="show" />
+                    <field name="parent_id" groups="project.group_subtask_project" optional="hide"/>
+                    <field name="user_id" optional="hide" widget="many2many_avatar_user"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show"/>
+                    <field name="activity_ids" widget="list_activity" optional="show"/>
+                    <field name="date_deadline" optional="hide" widget="remaining_days"
+                           />
+                    <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" optional="show"/>
+                    <field name="kanban_state" widget="state_selection" optional="hide" readonly="1"/>
+                    <field name="stage_id" invisible="context.get('set_visible',False)" optional="show" readonly="1"/>
+                </list>
+            </field>
+        </record>
+        
+        
+        
+        <record id="action_view_pending_milestone" model="ir.actions.act_window">
+            <field name="name">On Milestones</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">list,kanban,form,calendar,pivot,graph,activity</field>
+            <field name="search_view_id" ref="project_task_view_search_inherit_purchase_tasks"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'list', 'view_id': ref('view_task_milestone_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('project_task_form_inherit')})]"/>
+            <field name="domain">[('purchase_id', '!=', False)]</field>
+            <field name="context">{'create':False,'search_default_open_milesones': 1, 'all_task': 0}</field>
+            
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No tasks found. Let's create one!
+                </p><p>
+                     To get things done, use activities and status on tasks.<br/>
+                    Chat in real time or by email to collaborate efficiently.
+                </p>
+            </field>
+        </record>
+        
+        
+        <menuitem name="On Milestones" id="menu_purchase_tasks_pending_milestones" parent="purchase.menu_procurement_management"
+            action="action_view_pending_milestone" sequence="20" groups="project.group_project_user"/>
+    </data>
+</odoo>

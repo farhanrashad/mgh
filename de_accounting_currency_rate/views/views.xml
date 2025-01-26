@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="de_accounting_currency_rate.list">
+      <field name="name">de_accounting_currency_rate list</field>
+      <field name="model">de_accounting_currency_rate.de_accounting_currency_rate</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </list>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="de_accounting_currency_rate.action_window">
+      <field name="name">de_accounting_currency_rate window</field>
+      <field name="res_model">de_accounting_currency_rate.de_accounting_currency_rate</field>
+      <field name="view_mode">list,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="de_accounting_currency_rate.action_server">
+      <field name="name">de_accounting_currency_rate server</field>
+      <field name="model_id" ref="model_de_accounting_currency_rate_de_accounting_currency_rate"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "list,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="de_accounting_currency_rate" id="de_accounting_currency_rate.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="de_accounting_currency_rate.menu_1" parent="de_accounting_currency_rate.menu_root"/>
+    <menuitem name="Menu 2" id="de_accounting_currency_rate.menu_2" parent="de_accounting_currency_rate.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="de_accounting_currency_rate.menu_1_list" parent="de_accounting_currency_rate.menu_1"
+              action="de_accounting_currency_rate.action_window"/>
+    <menuitem name="Server to list" id="de_accounting_currency_rate" parent="de_accounting_currency_rate.menu_2"
+              action="de_accounting_currency_rate.action_server"/>
+-->
+  </data>
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_purchase_enhancement" model="ir.ui.view">
+            <field name="name">purchase.enhancement</field>
+            <field name="model">purchase.enhancement</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name" invisible="1"/>
+                        <field name="products_po" invisible="1"/>
+                        <field name="demand_po" invisible="1"/>
+                        <field name="quantity_po" invisible="1"/>
+                        <field name="po_line_ref" invisible="1"/>
+                        <field name="po_line_id" invisible="1"/>
+                        
+                    </group>
+                    <notebook>
+                        <page string="Sale Order">
+                            <field name="purchase_order" widget="one2many_list">
+                                <list editable="bottom">
+                                    <field name='sale_order_po'/>
+                                    <field name="text"/>
+                                    <field name='quantity'/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_po_enhancement_wizard" model="ir.actions.act_window">
+            <field name="name">Detailed Information</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.enhancement</field>
+            <field name="view_id" ref="view_purchase_enhancement"/>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

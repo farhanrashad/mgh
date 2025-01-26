@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_salary_advance_request_document">
+        <t t-call="web.external_layout">
+            <t t-set="doc" t-value="doc.with_context(lang=doc.employee_id.address_id.lang)" />
+        <div class="page">
+            <div class="oe_structure"/>
+            
+            <h2 class="mt32 mb32 text-center">
+                <span>Advance Salary Request</span>
+            </h2>
+            
+            <h3 class="mt32 mb32">
+               <span t-field="doc.name"/>
+            </h3>
+            <br/><br/>
+            <div class="row mt32 mb32" id="informations">
+                <div t-if="doc.employee_id" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Employee:</strong>
+                    <span t-field="doc.employee_id"/>
+                </div>
+                <div t-if="doc.job_id" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Job Position:</strong>
+                    <span t-field="doc.job_id"/>
+                </div>
+            </div>
+            <div class="row mt32 mb32" id="informations2">
+                <div t-if="doc.department_id" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Department:</strong>
+                    <span t-field="doc.department_id"/>
+                </div>
+                <div t-if="doc.manager_id" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Manager:</strong>
+                    <span t-field="doc.manager_id"/>
+                </div>
+            </div>
+            <div class="row mt32 mb32" id="informations3">
+                <div t-if="doc.advance_type_id" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Type:</strong>
+                    <span t-field="doc.advance_type_id"/>
+                </div>
+                <div t-if="doc.user_id" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Requested By:</strong>
+                    <span t-field="doc.user_id"/>
+                </div>
+            </div>
+            <hr/>
+            <div class="row mt32 mb32" id="informations4">
+                <div t-if="doc.date" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Requested On:</strong>
+                    <span t-field="doc.date"/>
+                </div>
+                <div t-if="doc.date_due" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Due On:</strong>
+                    <span t-field="doc.date_due"/>
+                </div>
+            </div>
+            <div class="row mt32 mb32" id="informations4">
+                <div t-if="doc.ref" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Reference:</strong>
+                    <span t-field="doc.ref"/>
+                </div>
+                <div t-if="doc.amount" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Requested Amount:</strong>
+                    <span t-field="doc.amount"/>
+                </div>
+            </div>
+            
+            <div class="row mt32 mb32" id="informations5">
+                <div t-if="doc.state" class="col-auto col-3 mw-100 mb-2">
+                    <strong>Status:</strong>
+                    <span t-field="doc.state"/>
+                </div>
+            </div>
+            <hr/>
+            <div class="row mt32 mb32" id="informations">
+                <div t-if="doc.description" class="col-auto mw-100 mb-2">
+                    <p t-field="doc.description" />
+                </div>
+            </div>
+        </div>
+        </t>
+    </template>
+    
+    <template id="report_advance_request">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="de_empfin_advances.report_salary_advance_request_document" t-lang="doc.employee_id.address_id.lang"/>
+            </t>
+        </t>
+    </template>
+</odoo>

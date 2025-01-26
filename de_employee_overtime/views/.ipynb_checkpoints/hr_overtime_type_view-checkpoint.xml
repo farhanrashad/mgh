@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <data>
+        <!-- Views -->
+        <!-- Form View -->
+        <record id="hr_overtime_type_form_view" model="ir.ui.view">
+            <field name="name">Time In Line</field>
+            <field name="model">hr.overtime.type</field>
+            <field name="arch" type="xml">
+                <form string="Overtime Request">
+                  
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" 
+                                       placeholder="Name ...."/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                               
+                                <field name="company_id"
+                                       required="work_location_id != Falses" />
+                            </group>
+                            
+                            <group>
+                                <field name="type"   />
+                                <field name="work_location_id"   />
+                            </group>
+                           
+                        </group>
+                        <notebook>
+                            <page string="Compansation" >
+                                <field name="type_line_ids" >    
+                                 <list editable='bottom'>
+                                    <field name="compansation"/>
+                                    <field name="rate_type"
+                                           invisible="compansation != 'payroll'"/>
+                                    <field name="rate"
+                                           invisible="compansation != 'payroll' or rate_type != 'fix_amount'"/>
+                                    <field name="rate_percent"  invisible="compansation != 'payroll' or rate_type != 'fix_amount'"/>
+                                    <field name="hours_per_day" invisible="compansation != 'payroll' or rate_type != 'fix_amount'"/>
+                                    <field name="month_day" invisible="compansation != 'payroll' or rate_type != 'fix_amount'"/>
+                                    <field name="leave_type_id"
+                                           invisible="compansation == 'payroll'"
+                                     required="compansation == 'leave'"/>
+                                     <field name="company_id"
+                                                          invisible="1"/>
+                                      <field name="leave_type"
+                                                         invisible="compansation == 'payroll'"/>
+                                      <field name="ot_hours"
+                                                         widget='float_time'/>
+                                    
+                                    <field name="entry_type_id"  invisible="compansation == 'payroll'" />
+                                    <field name="overtime_type_id"   invisible="1"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                        
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"
+                               widget="mail_followers"
+                               groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="hr_overtime_type_tree_view" model="ir.ui.view">
+            <field name="name">Overtime.type</field>
+            <field name="model">hr.overtime.type</field>
+            <field name="arch" type="xml">
+                <list string="Overtime Request">
+                 
+                    <field name="name"/>
+                    <field name="company_id"   />
+                    <field name="work_location_id"   />
+                </list>
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <!-- overtime -->
+        <record id="hr_overtime_type_action" model="ir.actions.act_window">
+            <field name="name">Overtime Type</field>
+            <field name="res_model">hr.overtime.type</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create new Pre Approval Overtime Type.
+                </p>
+            </field>
+        </record>
+
+
+        <!-- MenuItems -->
+        
+        
+        <menuitem id="hr_overtime_configuration" name="Configuration"
+                  parent="overtime_submenu"
+                  />
+        
+        
+       
+         
+        <menuitem id="hr_overtime_type_main_menu" name="Overtime Type"
+                  parent="hr_overtime_configuration"
+                  action="hr_overtime_type_action"
+                  groups="base.group_user"/>
+        
+       
+
+
+
+    </data>
+</odoo>

@@ -1,0 +1,10 @@
+<odoo>
+     <report
+            id="con_project_report"
+            string="Project Report"
+            model="con.projects"
+            report_type="qweb-pdf"
+            file="de_project_planning.report_con_project_reports"
+            name="de_project_planning.report_con_project_reports" />
+
+</odoo>

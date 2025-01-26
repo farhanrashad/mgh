@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="report_con_project_reports">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <div class="col-xs-12" style="margin:auto">
+                            <h1>
+                                <p t-field="o.project_name" />
+                            </h1>
+                            <table class="table table-condensed" style="border: 3px solid black !important;">
+                                <tr style="border-bottom: 3px solid black">
+                                    <th>Customer  </th>
+                                    <th>Project Manager </th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p t-field="o.partner_id"/>
+                                    </td>
+                                    <td>
+                                        <p t-field="o.manager_id"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <h1>Construction Site Detail:</h1>
+                            <table class="table table-condensed" style="border: 3px solid black !important;">
+                                <tr style="border-bottom: 3px solid black">
+                                    <td>
+                                        <strong>
+                                            <b>Type Of Construction</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Location</b>
+                                        </strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p t-field="o.site_id"/>
+                                    </td>
+                                    <td>
+                                        <p t-field="o.location_id"/>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <h1>Tasks:</h1>
+                            <table class="table table-condensed" style="border: 3px solid black !important;">
+                                <tr style="border-bottom: 3px solid black">
+                                    <td>
+                                        <strong>
+                                            <b>Task Name</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Planned Hours</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Spent Hours</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Remaining Hours</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Assign To</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Assign Date</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Deadline</b>
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <strong>
+                                            <b>Stage</b>
+                                        </strong>
+                                    </td>
+                                </tr>
+                                    <t t-set="current_subtotal" t-value="0"/>
+                                    <t t-foreach="o.name" t-as="line">
+                                <tr t-att-class="'o_line_section'">
+                                    <td>
+<!--                                        <p t-field="o.project_sub_task"/>-->
+                                    </td>
+                                    <td>
+<!--                                        <p t-field="o.planned_hours"/>-->
+                                    </td>
+                                    <td>
+<!--                                        <p t-field="o.starting_date"/>-->
+                                    </td>
+                                    <td>
+<!--                                        <p t-field="o.remaining_hours"/>-->
+                                    </td>
+                                    <td>
+<!--                                        <p t-field="o.assign_to"/>-->
+                                    </td>
+                                    <td>
+<!--                                        <p t-field="o.starting_date"/>-->
+                                    </td>
+                                    <td>
+<!--                                        <p t-field="o.deadline"/>-->
+                                    </td>
+                                    <td>
+<!--                                        <p t-field="o.stage_sub_task"/>-->
+                                    </td>
+                                </tr>
+                                    </t>
+                            </table>
+
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+        <template id="con_projects_report_id">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="de_project_planning.report_con_project_reports"/>
+            </t>
+        </t>
+    </template>
+
+
+    </data>
+</odoo>

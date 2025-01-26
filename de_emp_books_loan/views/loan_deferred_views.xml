@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_emp_books_loan_to_pay" parent="menu_emp_books_loan" name="To Pay" sequence="30" groups="hr.group_hr_manager"/>
+
+        <!-- Loan Deffered view -->
+        <record model="ir.ui.view" id="hr_employee_loan_deferred_tree_view">
+            <field name="name">hr.employee.loan.deferred.tree.view</field>
+            <field name="model">hr.employee.loan.deferred</field>
+            <field name="arch" type="xml">
+                <list string=" Loan Deferred Request">
+                    <field name="name"/>
+                    <field name="date"/>
+                   <field name="employee_id"/>
+                    <field name="employee_loan_id"/>
+                    <field name="currency_id" optional="hide"/>
+                    <field name="amount_loan"/>
+                    <field name="amount_residual_loan"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                    <field name="user_id" readonly="1" options="{'no_create':True}" string="Requested By" optional="hide"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+        
+        <record id="hr_employee_loan_deferred_form_view" model="ir.ui.view">
+            <field name="name">hr.employee.loan.deferred.form.view</field>
+            <field name="model">hr.employee.loan.deferred</field>
+            <field name="arch" type="xml">
+                <form string="Loan" class="o_advance_form">
+                    <header> 
+                        <button name="action_submit_request"    invisible="state != 'draft'" string="Submit to Manager" type="object" class="oe_highlight"/>
+                        <button name="approve_request"    invisible="state != 'submit'" string="Approve" type="object" groups="de_emp_books_loan.group_hr_loan_team_approver" class="oe_highlight"/>
+                                                
+                        <button name="%(de_emp_books_loan.hr_employee_loan_refuse_wizard_action)d"  invisible="state not in ['submit','approve']" context="{'hr_employee_loan_refuse_model':'hr.employee.loan'}" string="Refuse" type="action" groups="de_emp_books.group_hr_loan_team_approver" />
+
+                        
+                        <field name="state" widget="statusbar" statusbar_visible="draft,submit,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="e.g. Loan request for home" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="employee_id" required="1" options="{'no_create':True}" />
+                                <field name="job_id" options="{'no_create':True}" />
+                                <field name="department_id" />
+                            </group>
+                            <group>
+                                
+                                <field name="date"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="user_id" readonly="1" options="{'no_create':True}" string="Requested By"/>
+                                <field name="employee_loan_id" required="1" options="{'no_create':True}" string="Loan Reference"/>
+                                <field name="employee_loan_line_id" string="Current Installment"/>
+                                <field name="currency_id" invisible="1" />
+                                <field name="amount_loan"/>
+                                <field name="amount_residual_loan"/>
+                                <label for="deferred_period" string="Deffered EMI for"/>
+                                <div class="o_row no-gutters d-flex">
+                                    <div class="o_row">
+                                        <field name="deferred_period" class="text-left" />
+                                    </div>
+                                    <span> Month(s)</span>
+                                </div>
+                            </group>
+                        </group>
+                        <div>
+                            <field name="description" class="oe_inline" placeholder="Reason ..."/>
+                        </div>
+                    </sheet>
+                    <div class="o_attachment_preview"/>
+                    <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+                </form>
+            </field>
+        </record>
+        
+        <record id="action_hr_employee_loan_deferred" model="ir.actions.act_window">
+            <field name="name">Loan Deferred Request</field>
+            <field name="res_model">hr.employee.loan.deferred</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No loan deferred request found. Let's create one!
+                </p><p>
+                    Employee requests for defferred EMI.  
+                </p>
+            </field>
+        </record>
+        
+        <menuitem id="menu_emp_books_loan_deferred_request" action="action_hr_employee_loan_deferred" parent="menu_emp_books_loan" name="Deferred Request" sequence="50" groups="hr.group_hr_manager"/>
+    </data>
+</odoo>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+      <!-- Job Orders / Tasks -->
+
+
+      
+
+      
+      
+
+      <!-- cost sheet -->
+    <record id="project_cost_sheet_tree_view" model="ir.ui.view">
+        <field name="name">project.cost.sheet.tree.view</field>
+        <field name="model">project.cost.sheet</field>
+        <field name="priority">2</field>
+        <field name="arch" type="xml">
+            <list string="Cost Sheet" multi_edit="1" sample="1">
+                <field name="name" string="Number" readonly="1" decoration-bf="1"/>
+                <field name="date" widget="date" />
+                <field name="date_scheduled" />
+                <field name="employee_id" optional="show" />
+                <field name="user_id" optional="show" widget="many2one_avatar_user" invisible="1"/>
+                <field name="activity_ids" widget="list_activity" optional="show"/>
+                <field name="company_id" groups="base.group_multi_company" optional="show" readonly="1"/>
+                <field name="state" />
+            </list>
+        </field>
+    </record>
+      
+    <record id="project_cost_sheet_form_view" model="ir.ui.view">
+        <field name="name">project.cost.sheet.form.view</field>
+        <field name="model">project.cost.sheet</field>
+        <field name="arch" type="xml">
+            <form string="Cost Sheet" class="" >
+                <header>
+                    <button name="%(action_project_cost_sheet_to_jo)d" type="action" class="oe_highlight"
+                    string="New Job Order"
+                    invisible="state != 'confirm'"/>
+                    
+                    <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
+                        invisible="state not in ['draft']"/>
+                            
+                    <button name="action_done" type="object" class="oe_highlight"
+                    string="Validate" invisible="state != 'confirm'"/>
+                    
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state not in ['draft', 'confirm'] or id == False"/>
+                    
+                    <button name="action_draft" invisible="state != 'cancel'" type="object" string="Set to Draft"/>
+                    
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
+                </header>
+                <sheet>
+                   <div class="oe_button_box" name="button_box">
+                    <button name="%(action_job_orders_list)d" type="action" class="oe_stat_button" icon="fa-list-alt"
+                        invisible="state == 'draft'">
+                        <field name="jobs_count" widget="statinfo" string="Job Orders"/>
+                    </button>
+                </div>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group name="cost_sheet_header">
+                        <group name="project_details">
+                            <field name="user_id"/>
+                            <field name="employee_id" widget="res_partner_many2one" options='{"always_reload": True}'/>
+                            <field name="department_id" />
+                            <field name="user_id" domain="[('share', '=', False)]" widget="many2one_avatar_user" invisible="1"/>
+                            <field name="project_id" domain="[('allow_site_planning','=',1)]" />
+                            <field name="analytic_account_id"/>
+                            <field name="sale_id"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group name="cost_dates">
+                            <field name="date" />
+                            <field name="date_scheduled" />
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"
+                                   readonly="state not in ('draft')"/>
+                            <field name="currency_id" invisible="1"/>
+
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" readonly="state not in ('draft','in_progress')"/>
+                    </group>
+                    <notebook>
+                        <page string="Materials" name="project_cost_sheet_material_line">
+                            <group>
+                                <field name="select_all" nolabel="1"/>
+                            </group>
+                            <field name="project_cost_sheet_material_line" widget="one2many_list">
+                                <list string="Material lines" editable="bottom">
+                                    <field name="record_selection" nolabel="1"/>
+
+                                    <field name="product_id" readonly="parent.state != 'draft'"
+                                           required="parent.state == 'draft'"/>
+                                    <field name="product_template_id" invisible="1"/>
+                                    <field name="name" readonly="parent.state != 'draft'"
+                                           required="parent.state == 'draft'"/>
+                                    <field name="product_uom_qty" sum="Planned Qty" readonly="parent.state != 'draft'"
+                                           required="parent.state == 'draft'"/>
+                                    <field name="product_uom" readonly="parent.state != 'draft'"
+                                           required="parent.state == 'draft'"/>
+                                    <field name="standard_price" />
+                                    <field name="date_scheduled" />
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="price_total" sum="Total"/>
+                                    <field name="qty_received" sum="Received" optional="show"/>
+                                    <field name="qty_to_invoice" sum="Invoiced" optional="show"/>
+                                </list>
+                            </field>
+                            <group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="project_total">
+                                    <field name="material_cost_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="labor_cost_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="overhead_cost_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="cost_total"/>
+                                    </div>
+                                    <field name="cost_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                                <div class="oe_clear"/>
+                            </group>
+                        </page>
+                        <page string="Labor Cost" name="lacor_cost">
+                            <field name="project_cost_sheet_labor_line" widget="one2many_list">
+                                <list string="Labor Cost" editable="bottom">
+
+                                    <field name="name" invisible="1"/>
+                                    <field name="planned_hours" widget="timesheet_uom" sum="Planned Hours"/>
+                                    <field name="hourly_cost" />
+                                    <field name="cost_total" sum="Total Cost"/>
+                                    <field name="total_timesheet_time" sum="Actual Hours"/>
+                                    <field name="date_scheduled" />
+                                    <field name="currency_id" invisible="1"/>
+                                </list>
+                            </field>
+                            <group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="project_total">
+                                    <field name="material_cost_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="labor_cost_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="overhead_cost_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="cost_total"/>
+                                    </div>
+                                    <field name="cost_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                                <div class="oe_clear"/>
+                            </group>
+                        </page>
+                        <page string="Overheads" name="overheads">
+                            <field name="project_cost_sheet_overhead_line" widget="one2many_list">
+                                <list string="Overhead lines" editable="bottom">
+                                    <field name="product_id" required="1"/>
+                                    <field name="product_template_id" invisible="1"/>
+                                    <field name="name"/>
+                                    <field name="product_uom_qty" sum="Planned Qty"/>
+                                    <field name="product_uom"/>
+                                    <field name="standard_price" />
+                                    <field name="date_scheduled" />
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="price_total" sum="Total"/>
+                                    <field name="qty_received" sum="Received" optional="show"/>
+                                    <field name="qty_to_invoice" sum="Invoiced" optional="show"/>
+                                </list>
+                            </field>
+                            <group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="project_total">
+                                    <field name="material_cost_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="labor_cost_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <field name="overhead_cost_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="cost_total"/>
+                                    </div>
+                                    <field name="cost_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                                <div class="oe_clear"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+      
+    <record id="project_cost_sheet_search_view" model="ir.ui.view">
+        <field name="name">project.cost.sheet.filter.view</field>
+        <field name="model">project.cost.sheet</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search Cost Sheet">
+                <field name="name" string="Reference" filter_domain="['|', ('name', 'ilike', self), ('origin', 'ilike', self)]"/>
+                <field name="user_id" invisible="1"/>
+                <field name="employee_id" operator="child_of"/>
+                <filter string="My Cost Sheets" name="my_cost_sheets" domain="[('user_id', '=', uid)]"/>
+                <separator/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]" help="New Agreements"/>
+                <filter string="Confirmed" name="confirmed" domain="[('state', 'in', ('in_progress', 'open'))]" help="In negotiation"/>
+                <filter string="Done" name="done" domain="[('state', '=', 'done')]"/>
+               
+                <group expand="0" string="Group By">
+                    <filter string="Purchase Representative" name="representative" domain="[]" context="{'group_by': 'user_id'}"/>
+                    <filter string="Status" name="status" domain="[]" context="{'group_by': 'state'}"/>
+                    <filter string="Date" name="date" domain="[]" context="{'group_by': 'date'}"/>
+                </group>
+                
+            </search>
+        </field>
+      </record>
+      
+    <record id="action_project_cost_sheet" model="ir.actions.act_window">
+            <field name="name">Cost Sheet</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">project.cost.sheet</field>
+            <field name="view_mode">list,kanban,form,activity</field>
+            <field name="search_view_id" ref="project_cost_sheet_search_view"/>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new cost sheet!
+                </p><p>
+                    Once the cost sheet is confirmed.<br/> You will be able to create picking or purchase order.
+                </p>
+            </field>
+    </record>
+ 
+    <menuitem action="action_project_cost_sheet" id="menu_purchase_demand_action" parent="project_planning_ops_main_menu" sequence="20"/>
+      
+    
+
+
+
+  </data>
+</odoo>

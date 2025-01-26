@@ -1,0 +1,52 @@
+<odoo>
+    <data>
+        <!-- task actions -->
+        <record id="action_view_purchase_milestones" model="ir.actions.act_window">
+            <field name="name">On Milestones</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">list,kanban,form,calendar,pivot,graph,activity</field>
+            <field name="search_view_id" ref="project_task_view_search_inherit_purchase_tasks"/>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'list', 'view_id': ref('view_task_milestone_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('project_task_form_inherit')})]"/>
+            <field name="domain">[('purchase_id', '=', active_id)]</field>
+            <field name="context">{'create':False}</field>
+        </record>
+        <!-- Purchase view -->
+        <record id="purchase_order_form_inherit" model="ir.ui.view">
+            <field name="name">purchase.order.form.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[1]/group[1]" position="inside">
+                    <field name="order_type_id" required="1"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_ref']" position="after">
+                    
+                    <field name="ms_project_id" invisible="1"/>
+                    <field name="task_ids" widget="many2many_tags" invisible="1"/>
+                </xpath>
+                <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                        <button name="%(action_view_purchase_milestones)d" type="action" class="oe_stat_button" icon="fa-tasks"
+                                invisible="task_count == 0">
+                            <field name="task_count" widget="statinfo" string="Milestone"/>
+                        </button>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Task Workflow" id="task_workflow" groups="base.group_erp_manager">
+                        <field name="purchase_task_workflow_line" groups="base.group_erp_manager">
+                            <list editable="bottom">
+                                <field name="purchase_id" invisible="1" />
+                                <field name="sequence" />
+                                <field name="task_id" required="1" options="{'no_create': True,'no_open':True}" domain="[('purchase_id','=',purchase_id)]"/>
+                                <field name="next_task_id" options="{'no_create': True,'no_open':True}" domain="[('purchase_id','=',purchase_id)]"/>
+                                <field name="prv_task_id" options="{'no_create': True,'no_open':True}" domain="[('purchase_id','=',purchase_id)]"/>
+                            </list>
+                        </field>
+                    </page>
+                </xpath>
+                
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="group_payment_proposal_approve" model="res.groups">
+            <field name="name">Payment Proposal Approve</field>
+            <field name="comment">Allow user to approve payment proposal.</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+    </data>
+</odoo>

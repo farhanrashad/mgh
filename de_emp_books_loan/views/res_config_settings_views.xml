@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_emp_books_loan" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.emp.books.loan</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="de_emp_books.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='employee_books']" position="after">
+                <h2>Employee Loans</h2>
+                <div class="row mt16 o_settings_container" name="employee_books">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane"/>   
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Products</span>
+                            <div class="text-muted">
+                                Default product applied for loan principal payment
+                            </div>
+                            <div class="content-group mt8">                                
+                                <field name="loan_default_product_id" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane"/>   
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Journal</span>
+                            <div class="text-muted">
+                                Default Journal used for loan payments
+                            </div>
+                            <div class="content-group mt8">                                
+                                <field name="loan_default_journal_id" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt16 o_settings_container" name="employee_books">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane"/>   
+                        <div class="o_setting_right_pane">
+                            
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane"/>   
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Write-Off Account</span>
+                            <div class="text-muted">
+                                Default Write-Off Account for bad debt loan
+                            </div>
+                            <div class="content-group mt8">                                
+                                <field name="writeoff_default_account_id" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt16 o_settings_container" name="employee_books">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane"/>   
+                        <div class="o_setting_right_pane">
+                            
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane"/>   
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Interest Account</span>
+                            <div class="text-muted">
+                                Default Interest Account on loan
+                            </div>
+                            <div class="content-group mt8">                                
+                                <field name="interest_default_account_id" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

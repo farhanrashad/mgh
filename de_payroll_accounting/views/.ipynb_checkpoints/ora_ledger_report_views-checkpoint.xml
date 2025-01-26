@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+       
+        
+        <record id="view_ora_ledger_report_form" model="ir.ui.view">
+            <field name="name">ora.ledger.report.form</field>
+            <field name="model">ora.ledger.report</field>
+            <field name="arch" type="xml">
+                <form string="ORA Ledger Report" create='0' edit='0' delete='0'>
+                    <sheet>
+                       <group>
+                         <group>
+                              <field name="analytic_account_id"  />
+                              <field name="control_account_id"  />
+                              <field name="account_id"  />
+                              <field name="journal_id"  />
+                         </group>
+                           <group>
+                              <field name="date"  />
+                              <field name="debit"  />
+                              <field name="credit"  />
+                              <field name="payslip_run_id"  />
+                              <field name="ora_posted"   invisible='1'/>
+                         </group>
+                       </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+       
+
+        <record model="ir.ui.view" id="view_ora_ledger_report_tree">
+            <field name="name">ora.ledger.report.tree</field>
+            <field name="model">ora.ledger.report</field>
+            <field name="arch" type="xml">
+                <list string="Ledger" create='0' delete='0' edit='0'>
+                     <field name="analytic_account_id"  />
+                     <field name="control_account_id"  />
+                     <field name="account_id"  />
+                     <field name="date"  />
+                     <field name="debit"  />
+                     <field name="credit"  />
+                </list>
+            </field>
+        </record>
+
+        <record id="action_ora_ledger_report" model="ir.actions.act_window">
+            <field name="name">GL Ledger Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ora.ledger.report</field>
+            <field name="view_mode">list,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" ref="view_ora_ledger_report_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create Records Here.......
+                </p>
+            </field>
+        </record>
+        
+     
+        <menuitem id="menu_ora_ledger_report_menuitem"
+                  name="GL Ledger Report"
+                  parent="hr_payroll.menu_hr_payroll_report"
+                  action="action_ora_ledger_report"
+                  sequence="95"/>
+        
+    </data>
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- inherit Stock Location form view -->
+        <record id="view_location_form_inherit_site" model="ir.ui.view">
+            <field name="name">view.location.form.inherit.site</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='return_location']" position="after">
+                    <field name="site_location" invisible="usage not in ( 'internal')"/>
+                </xpath>
+                
+            </field>
+        </record>
+        
+    </data>
+</odoo>

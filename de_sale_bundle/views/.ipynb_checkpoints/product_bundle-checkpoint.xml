@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="product_bundle_tree" model="ir.ui.view">
+        <field name="name">product.bundle.tree</field>
+        <field name="model">product.bundle</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+
+    <record id="product_bundle_form" model="ir.ui.view">
+        <field name="name">product.bundle.form</field>
+        <field name="model">product.bundle</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string='Bundle Lines'>
+                            <field name="bundle_lines">
+                                <list editable="bottom">
+                                    <field name='product_id' required="True"/>
+                                    <field name='quantity'/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_product_bundle_view" model="ir.actions.act_window">
+        <field name="name">Product Bundle</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.bundle</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="view_id" ref="product_bundle_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Product Bundle!
+            </p>
+        </field>
+    </record>
+
+
+    <record id="sale_order_view_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.view.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[1]" position="before">
+                <page string='Bundle Lines'>
+                    <field name="bundle_ids">
+                        <list editable="bottom">
+                            <field name='bundle_id' required="True"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+            
+        </field>
+    </record>
+    
+
+    <menuitem
+            id="product_sale_bundle"
+            name="Product Bundle"
+            action="de_sale_bundle.action_product_bundle_view"
+            parent="stock.menu_stock_inventory_control"
+            sequence="0"/>
+</odoo>

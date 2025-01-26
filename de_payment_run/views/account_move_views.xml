@@ -1,0 +1,86 @@
+<odoo>
+    <record id="account_invoice_form_view_inherit" model="ir.ui.view">
+        <field name="name">account.invoice.form.view.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[1]/group[2]" position="inside">
+                <label for="payment_block_reason" string="Payment Block" 
+                   invisible="state != 'posted'"
+                />
+                <div class="o_row g-0 d-flex" >          
+                    <field name="payment_block_reason"
+                        invisible="state != 'posted'"
+                        />
+                    <button name="button_mark_payment_unblock" 
+                        type="object" 
+                        title="Free for Payment" 
+                        icon="fa-check-circle" 
+                        class="btn btn-success"
+                         invisible="payment_block_reason == 'p' or state != 'posted'
+                         or payment_state in ('in_payment','paid')"
+                    />
+                    <button name="button_mark_payment_block" 
+                        type="object" 
+                        title="Mark Payment Block" 
+                        icon="fa-ban" 
+                        class="btn btn-danger"
+                        invisible="payment_block_reason == 'p' or state != 'posted' or payment_state in ('in_payment','paid')"
+                    />
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_invoice_tree_view_inherit" model="ir.ui.view">
+        <field name="name">account.invoice.tree.view.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field name="payment_block_reason"
+                    string="Payment Block"
+                    widget="badge"
+                    decoration-danger="payment_block_reason == 'B'"
+                    decoration-success="payment_block_reason == 'P'"
+                    optional="hide"
+                />                
+            </xpath>
+        </field>
+    </record>
+
+    <record id="account_invoice_filter_view_inherit" model="ir.ui.view">
+        <field name="name">account.invoice.filter.view.inehrit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='late']" position="after">
+                <separator/>
+                <filter name="block_payment" string="Block For Payment" domain="[('payment_block_reason', '=', 'B'), ('payment_state', 'not in', ('in_payment', 'paid'))]"/>
+                <filter name="unblock_payment" string="Free For Payment" domain="[('payment_block_reason', '=', 'F'), ('payment_state', 'not in', ('in_payment', 'paid'))]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="invoice_payment_run_tree_view" model="ir.ui.view">
+			<field name="name">invoice.payment.run.tree.view</field>
+			<field name="model">account.move</field>
+			<field name="arch" type="xml">
+				<list string="Batches">
+					<field name="name"/>  
+                    <field name="partner_id"/>
+                    <field name="invoice_date"/>
+                    <field name="invoice_date_due"/>
+                    <field name="amount_total_signed"/>
+                     <field name="amount_total" optional="hide"/>
+                    <field name="amount_residual" />
+                    <field name="amount_residual_signed" />
+                     <field name="currency_id" />
+                    <field name="state"/>
+                    <field name="payment_state"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+				</list>
+			</field>
+		</record>
+    
+</odoo>

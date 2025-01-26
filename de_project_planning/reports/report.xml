@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <report
+            id="action_notes_project"
+            string="Notes"
+            model="project.notes"
+            report_type="qweb-pdf"
+            file="de_project_planning.report_notes"
+            name="de_project_planning.report_notes" />
+
+    <report
+            id="action_project_report"
+            string="Project report"
+            model="con.projects"
+            report_type="qweb-pdf"
+            file="de_project_planning.report_project"
+            name="de_project_planning.report_project" />
+    <report
+            id="action_job_order"
+            string="Job Order report"
+            model="job.order"
+            report_type="qweb-pdf"
+            file="de_project_planning.report_order_job"
+            name="de_project_planning.report_order_job" />
+
+</odoo>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        
+        <record id="hr_employee_loan_type_search_view" model="ir.ui.view">
+            <field name="name">hr.employee.loan.type.search.view</field>
+            <field name="model">hr.employee.loan.type</field>
+            <field name="priority">10</field>
+            <field name="arch" type="xml">
+                <search string="Search">
+                    <field name="name" string="Type" filter_domain="['|',('name','ilike',self)]"/>
+                  
+               </search>
+            </field>
+        </record>
+
+
+        <record id="hr_employee_loan_type_form_view" model="ir.ui.view">
+            <field name="name">hr.employee.loan.type.form.view</field>
+            <field name="model">hr.employee.loan.type</field>
+            <field name="arch" type="xml">
+                <form string="Employee Loans">
+                	<sheet>
+                        <div class="oe_title">
+                            <label class="oe_edit_only" for="name" string="Type"/>
+                            <h1><field name="name" placeholder="e.g. Car Loan"/></h1>
+                            <h3><field name="code" class="oe_inline" placeholder="e.g. L01"/></h3>
+                        </div>
+                        
+                        <notebook>
+                            <page string="Computation" name="loan_amount_condition">
+                                <group name="installments">
+                                    <group string="Installment Condition">
+                                        <field name="condition_installment_min" required="1"/>
+                                        <field name="condition_installment_max" required="1"/>
+
+                                    </group>
+                                </group>
+                                <group name="loan_computation">
+                                    <group string="Maximum Loan Amount">
+                                        <field name="amount_select"/>
+                                        <field name="amount_percentage_base"
+                                               invisible="amount_select != 'percentage'"
+                                               required="amount_select == 'percentage'"/>
+                                        <field name="amount_fix"
+                                               invisible="amount_select != 'fix'"
+                                               required="amount_select == 'fix'"/>
+                                        <field name="amount_percentage"
+                                               invisible="amount_select != 'percentage'"
+                                                required="amount_select == 'percentage'"/>
+                                    </group>
+                                    <group colspan="4">
+                                        <field colspan="4" name="amount_python_compute"
+                                               invisible="amount_select != 'code'"
+                                               required="amount_select == 'code'"/>
+                                    </group>
+                            
+                                </group>
+                            </page>
+                            <page string="Eligibility" name="loan_eligibility">
+                                <group string="Domain">
+                                    <field name="employee_model_id" invisible="0" />
+                                    <field name="filter_domain" widget="domain" options="{'model': 'employee_model_id', 'in_dialog': True}"/>
+                                </group>
+                                <div class="d-none oe_clear"/>
+                                <field name="loan_type_doc_ids" nolabel="1" >
+                                    <list editable="bottom">
+                                        <field name="sequence" widget="handle" />
+                                        <field name="loan_type_id" invisible="1" />
+                                        <field name="name" placeholder="e.g Passport Copy" />
+                                        <field name="is_required" />
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Policy" name="loan_policy">
+                                <field name="description" nolabel="1" placeholder="Describe loan policy..." type="html"/>
+                                <div class="d-none oe_clear"/>
+                            </page>
+                            <page string="Accounting" name="accounting">
+                                <group>
+                                    <group string="Loan Disbursement">
+                                        <field name="product_id" options="{'no_create':True}" />
+                                        <field name="journal_id" options="{'no_create':True}" />
+                                        <field name="company_id" options="{'no_create':True}" />
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+		            </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="employee_loan_type_tree_view">
+            <field name="name">hr.loan.type.tree.view</field>
+            <field name="model">hr.employee.loan.type</field>
+            <field name="arch" type="xml">
+                <list string=" Loan type">
+                    <field name="name"/>
+                   <field name="product_id"/>
+                </list>
+            </field>
+        </record>
+
+        
+        <record id="action_employee_loan_type" model="ir.actions.act_window">
+            <field name="name">Loan Type</field>
+            <field name="res_model">hr.employee.loan.type</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="employee_loan_type_tree_view"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new loan type
+              </p>
+            </field>
+        </record>  
+
+        <menuitem id="menu_emp_books_config_loan_type" action="action_employee_loan_type" parent="menu_emp_books_config_loan" name="Loan Type" sequence="1" groups="hr.group_hr_manager"/>
+        
+    </data>
+</odoo>

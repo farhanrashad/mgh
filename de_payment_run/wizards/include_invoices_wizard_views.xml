@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_payment_run_invoices_wizard_form_view" model="ir.ui.view">
+        <field name="name">account.payment.run.invoices.wizard.form.view</field>
+        <field name="model">account.payment.run.invoices.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="payment_run_id" />
+                <field name="include_move_ids" 
+                                context="{'tree_view_ref': 'de_payment_run.invoice_payment_run_tree_view'}"
+                            >
+                                <list>
+                                    <field name="name"/>  
+                                    <field name="partner_id"/>
+                                    <field name="invoice_date"/>
+                                    <field name="invoice_date_due"/>
+                                    <field name="amount_total_signed"/>
+                                    <field name="amount_total" optional="hide" />
+                                    <field name="amount_residual_signed" />
+                                    <field name="amount_residual" optional="hide" />
+                                    <field name="state"/>
+                                    <field name="payment_state"/>
+                                </list>
+                            </field>
+                   <footer>
+                    <button name="action_process" string="Process" type="object" class="btn-primary"/>
+                    <button special="cancel" string="Cancel" class="btn-secondary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

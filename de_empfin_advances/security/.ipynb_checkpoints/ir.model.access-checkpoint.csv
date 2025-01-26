@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_advance_type,access.hr.advance.type,model_hr_employee_advance_type,hr.group_hr_manager,1,1,1,1
+access_hr_advance_employee,hr.advance.employee,model_hr_employee_advance,base.group_user,1,1,1,1
+
+access_hr_advance_refuse_wizard,access.hr.advance.refuse.wizard,model_hr_employee_advance_refuse_wizard,de_empfin_advances.group_hr_advance_team_approver,1,1,1,0
+
+

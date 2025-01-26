@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+
+        <!-- Stock Picking -->
+        
+        <record id="view_picking_form_inherit_jo" model="ir.ui.view">
+            <field name="name">view.picking.form.inherit.jo</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="priority">24</field>
+            <field name="arch" type="xml">
+                <xpath expr="//group[1]/group[2]" position="inside">
+                    <field name="project_id"/>
+                     <field name="task_id"/>
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <button name="%(de_project_planning.stock_picking_project_location_wizard_action)d" invisible="state not in ['draft','confirmed','assigned','waiting']" string="Project Location" class="oe_highlight" type="action" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

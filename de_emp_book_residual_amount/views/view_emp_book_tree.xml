@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    <data>-->
+<!--        Show Residual Amount in Employee Book Tree View-->
+<!--        <record id="inherit_hr_expense_prepayment_tree_view" model="ir.ui.view">-->
+<!--            <field name="name">inherit.hr.expense.prepayment.tree.view</field>-->
+<!--            <field name="model">hr.expense.prepayment</field>-->
+<!--            <field name="inherit_id" ref="de_emp_books_expense_prepayments.hr_expense_prepayment_tree_view"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='total_amount_approved']" position="after">-->
+<!--                    <field name="residual_amount" String="Residual Amount"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+<!--    </data>-->
+</odoo>

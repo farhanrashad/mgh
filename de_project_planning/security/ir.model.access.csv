@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_site_site_type,access.project.site.site.type,model_project_site_type,,1,1,1,1
+access_project_task_material_line_user,access.project.task.material.line.user,model_project_task_material_line,project.group_project_user,1,1,1,1
+access_project_job_type_user,access.project.job.type.user,model_project_job_type,project.group_project_user,1,1,1,1
+access_project_cost_sheet_user,access.project.cost.user,model_project_cost_sheet,project.group_project_user,1,1,1,1
+access_project_cost_sheet_material_line_user,access.project.cost.material.line.user,model_project_cost_sheet_material_line,project.group_project_user,1,1,1,1
+access_project_cost_sheet_labor_line_user,access.project.cost.labor.line.user,model_project_cost_sheet_labor_line,project.group_project_user,1,1,1,1
+access_project_cost_sheet_overhead_line_user,access.project.cost.overhead.line.user,model_project_cost_sheet_overhead_line,project.group_project_user,1,1,1,1
+access_project_location_wizard,access.project.location.wizard,model_stock_picking_project_location_wizard,stock.group_stock_user,1,1,1,0
+
+
+
+
+
+
+

@@ -1,0 +1,49 @@
+<odoo>
+    <record id="purchase_order_enhancement_form_view_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook//field[@name='order_line']//list" position="inside">
+                <button name="%(de_po_enhancement.action_po_enhancement_wizard)d"
+                        string="check"
+                        context="{'default_po_line_ref' : id}"
+                        type="action"
+                        invisible="check_id !=False"/>
+
+                <button name="view_save_data"
+                        string="check data"
+                        type="object"
+                        invisible="check_id != True"/>
+
+            </xpath>
+            <xpath expr="//notebook//field[@name='order_line']//list//field[@name='price_subtotal']" position="after">
+                <field name="check_id"/>
+            </xpath>
+
+
+        </field>
+    </record>
+
+    <record id="stock_picking_enhancement_form_view_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook//field[@name='move_ids_without_package']//list" position="inside">
+                <button name="%(de_po_enhancement.action_sp_enhancement)d"
+                        string="check"
+                        context="{'default_ps_line_ref' : id}"
+                        type="action"
+                        invisible="check_id_stock != False"/>
+                <button name="view_stock_data"
+                        string="check data"
+                        type="object"
+                        invisible="1"/>
+            </xpath>
+            <xpath expr="//notebook//field[@name='move_ids_without_package']//list//field[@name='quantity_done']" position="after">
+                <field name="check_id_stock"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
