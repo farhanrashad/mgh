@@ -15,7 +15,7 @@ class PurchaseOrder(models.Model):
             for line in self.auto_complete_id.order_line:
                 cost = 0
                 for vendor in line.product_id.seller_ids:
-                    if vendor.name.id == self.partner_id.id:
+                    if vendor.partner_id.id == self.partner_id.id:
                         cost = vendor.total_cost
                 data.append((0, 0, {
                     'order_id': self.id,
@@ -40,7 +40,7 @@ class PurchaseOrderLine(models.Model):
     #         print(self.product_id.seller_ids)
     #         for vendor in self.product_id.seller_ids:
     #             print(self.order_id.partner_id.id)
-    #             if vendor.name.id == self.order_id.partner_id.id:
+    #             if vendor.partner_id.id == self.order_id.partner_id.id:
     #                 cost = vendor.total_cost
     #                 print(cost)
     #         self.write({'price_unit': cost})
@@ -97,7 +97,7 @@ class PurchaseOrderLine(models.Model):
             print(self.product_id.seller_ids)
             for vendor in self.product_id.seller_ids:
                 print(self.order_id.partner_id.id)
-                if vendor.name.id == self.order_id.partner_id.id:
+                if vendor.partner_id.id == self.order_id.partner_id.id:
                     cost = vendor.total_cost
                     print(cost)
             self.write({'price_unit': cost})
