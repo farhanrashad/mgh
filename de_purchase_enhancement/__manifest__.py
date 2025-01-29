@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': "Purchase Enhancement",
-    'version': '18.0.0.2',
+    'version': '18.0.0.3',
     'summary': """Purchase order based on sale order
     """,
     'sequence': '5',
