@@ -24,14 +24,15 @@ class AccountMove(models.Model):
     )
     def _compute_payment_block_reason(self):
         for move in self:
-            if move.payment_state in ('in_payment','paid') or move.state != 'posted':
-               move.write({
-                    'payment_block_reason': False,
-                })
-            elif move.state == 'posted':
-                move.write({
-                    'payment_block_reason': 'P',
-                })
+            if move.move_type != 'entry':
+                if move.payment_state in ('in_payment','paid') or move.state != 'posted':
+                   move.write({
+                        'payment_block_reason': False,
+                    })
+                elif move.state == 'posted':
+                    move.write({
+                        'payment_block_reason': 'P',
+                    })
                 
     def button_mark_payment_unblock(self):
         for move in self:
